@@ -1,0 +1,97 @@
+.SchoolSearch {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    background: linear-gradient(to right, #4776E6, rgb(105, 47, 197)) fixed;
+    // background: linear-gradient(to right, #8360c3, #2ebf91) fixed;
+
+    &-Title {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    &-Result {
+        margin-top: 1rem;
+    }
+
+    &-CheckZone {
+        margin-top: 1rem;
+        text-align: center;
+        &-Contents {
+            text-align: center;
+            font-size: 1.75rem;
+        }
+
+        &-Image {
+            width: 90%;
+        }
+    }
+
+    &-SchoolImage {
+        width: 30%;
+        height: 70%;
+    }
+
+    &-SchoolList {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+
+        & > * {
+            margin: 1rem 10px;
+        }
+
+        &-Wrapper {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            background-color: #dfe4ea;
+            border: 1.5px solid #0067bc;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+            
+            &:hover {
+                border: 1.5px solid black;
+                background-color: black;
+                color: white;
+            }
+        }
+
+        &-Item {
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.25rem;
+            text-align: center;
+        }
+    }
+
+    &-SearchZone {
+        outline: none;
+        background: none;
+        border: 1px solid white;
+        padding: 0.5rem 1rem;
+        font-size: 1.25rem;
+        color: white;
+        vertical-align: middle;
+        &::placeholder {
+            color: white;
+        }
+
+        &-Button {
+            border: none;
+            outline: none;
+            vertical-align: middle;
+            padding: 9px;
+            font-size: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
+    }
+}
