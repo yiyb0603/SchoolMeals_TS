@@ -11,7 +11,7 @@ interface SchoolSearchProps extends RouteComponentProps<any> {
     setSearchValue: any;
     requestSchoolSearch: any;
     isSearch: boolean;
-    schoolList: any;
+    schoolList: string[];
     history: any;
 }
 
