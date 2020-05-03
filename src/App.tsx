@@ -14,7 +14,7 @@ const App = () => {
 
       <Route exact
         path ="/page"
-        render = {() => isSearched === null ? <Redirect to ="/" /> : <SchoolPage />}
+        render = {() => <SchoolPage />}
       />
     </Switch>
   );

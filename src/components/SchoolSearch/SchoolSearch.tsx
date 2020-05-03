@@ -2,20 +2,22 @@ import React from 'react';
 import './SchoolSearch.scss';
 import schoolImage from '../../assets/images/school.png';
 import { GoSearch } from 'react-icons/go';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 /* eslint-disable */
 
-interface SchoolSearchProps {
+interface SchoolSearchProps extends RouteComponentProps<any> {
     searchValue: string;
     setSearchValue: any;
     requestSchoolSearch: any;
     isSearch: boolean;
     schoolList: any;
+    history: any;
 }
 
-const SchoolSearch = ({ searchValue, setSearchValue, requestSchoolSearch, isSearch, schoolList } : SchoolSearchProps) => {
+const SchoolSearch = ({ searchValue, setSearchValue, requestSchoolSearch, isSearch, schoolList, history } : SchoolSearchProps) => {
     const schoolLists = (params : any) => {
-        return params.map((school: any, index: Number) => {
+        return params.map((school: any, index: number) => {
             const { office_code, school_code, school_locate, school_name, school_type } = school;
 
             const data = {
@@ -26,9 +28,9 @@ const SchoolSearch = ({ searchValue, setSearchValue, requestSchoolSearch, isSear
             };
 
             return (
-                <div className ="SchoolSearch-SchoolList-Wrapper" onClick ={() => {
+                <div className ="SchoolSearch-SchoolList-Wrapper" key ={index} onClick ={() => {
                     localStorage.setItem('schoolInfo', JSON.stringify(data));
-                    window.location.href ="/page";
+                    history.push("/page");
                 }}>
                     <img src ={schoolImage} className ="SchoolSearch-SchoolImage" alt ="school" />
                     <div className ="SchoolSearch-SchoolList-Item">{school_name}</div>
@@ -62,4 +64,4 @@ const SchoolSearch = ({ searchValue, setSearchValue, requestSchoolSearch, isSear
     );
 }
 
-export default SchoolSearch;
+export default withRouter(SchoolSearch);
