@@ -18,6 +18,10 @@ const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
 
     const requestSchoolSearch = useCallback((event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (searchValue === '') {
+            setIsSearch(false);
+        }
+        
         handleSchoolSearch(searchValue)
             .then ((response: { status: number; data: { schoolList: React.SetStateAction<never[]>; }; }) => {
                 if (response.status === 200) {

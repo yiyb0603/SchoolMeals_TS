@@ -43,10 +43,10 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
 
     return (
         <div className ="SchoolSearch">
-            <h2 className ="SchoolSearch-Title">학교를 검색해보세요</h2>
+            <h2 className ="SchoolSearch-Title">급식 정보 도우미</h2>
             <form onSubmit ={requestSchoolSearch} style ={{ display: 'inline-block' }}>
                 <input type ="text" value ={searchValue} onChange ={onChangeValue} 
-                    className ="SchoolSearch-SearchZone" placeholder ="검색할 학교를 입력하세요" />
+                    className ="SchoolSearch-SearchZone" placeholder ="학교를 검색해보세요" />
                 <button className ="SchoolSearch-SearchZone-Button" type ="submit">
                     <GoSearch />
                 </button>
