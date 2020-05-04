@@ -2,8 +2,13 @@ import React from 'react';
 import './SchoolPage.scss';
 import { FaSchool } from 'react-icons/fa';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-const SchoolPage = () => {
+interface SchoolPageProps extends RouteComponentProps<any> {
+    history: any;
+}
+
+const SchoolPage = ({ history } : SchoolPageProps) => {
     const schoolInfo = JSON.parse(localStorage.getItem('schoolInfo') || '[]');
 
     return (
@@ -12,7 +17,7 @@ const SchoolPage = () => {
                 <div className ="SchoolPage-Top-Another">
                     <IoMdArrowRoundBack className ="SchoolPage-Top-Another-Icon" onClick ={() => {
                         localStorage.removeItem('schoolInfo');
-                        window.location.href ="/";
+                        history.push("/");
                     }} />
                     <span className ="SchoolPage-Top-Another-Content">다른 학교 찾아보기</span>
                 </div> <br />
@@ -32,4 +37,4 @@ const SchoolPage = () => {
     );
 }
 
-export default SchoolPage;
+export default withRouter(SchoolPage);

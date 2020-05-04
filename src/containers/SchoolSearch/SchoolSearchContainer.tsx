@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, ChangeEvent } from 'react';
 import { inject, observer } from 'mobx-react';
 import SchoolSearch from '../../components/SchoolSearch';
 
 interface SchoolSearchContainerProps {
-    store?: any
+    store?: any;
 }
 
 const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
@@ -11,6 +11,10 @@ const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
     const [schoolList, setSchoolList] = useState([]);
     const [isSearch, setIsSearch] = useState(false);
     const { handleSchoolSearch } = store.MealsStore;
+
+    const onChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(event.target.value);
+    }
 
     const requestSchoolSearch = useCallback((event) => {
         event.preventDefault();
@@ -28,7 +32,7 @@ const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
     }, [handleSchoolSearch, searchValue]);
 
     return (
-        <SchoolSearch searchValue ={searchValue} setSearchValue ={setSearchValue} requestSchoolSearch ={requestSchoolSearch} 
+        <SchoolSearch searchValue ={searchValue} onChangeValue ={onChangeValue} requestSchoolSearch ={requestSchoolSearch} 
             isSearch ={isSearch} schoolList ={schoolList}
         />
     );

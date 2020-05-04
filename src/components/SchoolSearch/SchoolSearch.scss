@@ -29,6 +29,19 @@
         }
     }
 
+    &-CheckZone {
+        margin-top: 1rem;
+        text-align: center;
+        &-Contents {
+            text-align: center;
+            font-size: 1.75rem;
+        }
+
+        &-Image {
+            width: 90%;
+        }
+    }
+
     &-SchoolImage {
         width: 30%;
         height: 70%;
