@@ -4,7 +4,7 @@ class MealsStore {
     handleSchoolSearch = async (school_name: string) => {
         // 학교 검색
         try {
-            const response = await MealsRepository.handleSchoolSearch(school_name);
+            const response: object = await MealsRepository.handleSchoolSearch(school_name);
             return new Promise((resolve, reject) => {
                 resolve(response);
             })
@@ -18,7 +18,7 @@ class MealsStore {
     handleYesterdayMeals = async (school_id: string, office_id: string) => {
         // 어제 급식정보
         try {
-            const response = await MealsRepository.handleYesterdayMeals(school_id, office_id);
+            const response: object = await MealsRepository.handleYesterdayMeals(school_id, office_id);
             return new Promise((resolve, reject) => {
                 resolve(response);
             })
@@ -32,7 +32,7 @@ class MealsStore {
     handleTodayMeals = async (school_id: string, office_id: string) => {
         // 오늘 급식정보
         try {
-            const response = await MealsRepository.handleTodayMeals(school_id, office_id);
+            const response: object = await MealsRepository.handleTodayMeals(school_id, office_id);
             return new Promise((resolve, reject) => {
                 resolve(response);
             })
@@ -46,7 +46,7 @@ class MealsStore {
     handleTomorrowMeals = async (school_id: string, office_id: string) => {
         // 내일 급식정보
         try {
-            const response = await MealsRepository.handleTomorrowMeals(school_id, office_id);
+            const response: object = await MealsRepository.handleTomorrowMeals(school_id, office_id);
             return new Promise((resolve, reject) => {
                 resolve(response);
             })

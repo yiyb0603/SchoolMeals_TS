@@ -17,9 +17,9 @@ interface SchoolSearchProps extends RouteComponentProps<any> {
 }
 
 const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearch, schoolList, history } : SchoolSearchProps) => {
-    const schoolLists = (params : any) => {
+    const schoolLists = (params : string[]): any => {
         return params.map((school: any, index: number) => {
-            const { office_code, school_code, school_locate, school_name, school_type } = school;
+            const { office_code, school_code, school_locate, school_name } = school;
 
             const data = {
                 school_name,
