@@ -5,8 +5,30 @@
     background: linear-gradient(to right, #4776E6, rgb(105, 47, 197))fixed;
 
     &-Top {
+        width: 80%;
         margin-left: 10%;
         margin-top: 5%;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+
+        &-TimeZone {
+            color: white;
+            float: right;
+            font-weight: bold;
+            font-size: 1.7rem;
+
+            &-Time {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                letter-spacing: 1px;
+
+                & > * {
+                    margin-right: 5px;
+                }
+            }
+        }
 
         &-SchoolLocate {
             margin-left: 4%;
