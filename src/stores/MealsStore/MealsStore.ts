@@ -1,6 +1,10 @@
 import MealsRepository from './MealsRepository';
+import { observable, action } from 'mobx';
+import { autobind } from 'core-decorators';
 
+@autobind
 class MealsStore {
+    @action
     handleSchoolSearch = async (school_name: string) => {
         // 학교 검색
         try {
@@ -15,6 +19,7 @@ class MealsStore {
         }
     }
 
+    @action
     handleYesterdayMeals = async (school_id: string, office_id: string) => {
         // 어제 급식정보
         try {
@@ -29,6 +34,7 @@ class MealsStore {
         }
     }
 
+    @action
     handleTodayMeals = async (school_id: string, office_id: string) => {
         // 오늘 급식정보
         try {
@@ -43,6 +49,7 @@ class MealsStore {
         }
     }
 
+    @action
     handleTomorrowMeals = async (school_id: string, office_id: string) => {
         // 내일 급식정보
         try {
