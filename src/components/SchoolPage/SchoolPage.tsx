@@ -6,9 +6,10 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 interface SchoolPageProps extends RouteComponentProps<any> {
     history: any;
+    todayMeals: string[];
 }
 
-const SchoolPage = ({ history } : SchoolPageProps) => {
+const SchoolPage = ({ history, todayMeals } : SchoolPageProps) => {
     const schoolInfo = JSON.parse(localStorage.getItem('schoolInfo') || '[]');
     const [time, setTime] = useState(new Date());
 
@@ -45,9 +46,15 @@ const SchoolPage = ({ history } : SchoolPageProps) => {
             </div>
 
             <div className ="SchoolPage-MealsZone">
-                <div className ="SchoolPage-MealsZone-Meals">아침</div>
-                <div className ="SchoolPage-MealsZone-Meals">점심</div>
-                <div className ="SchoolPage-MealsZone-Meals">저녁</div>
+                <div className ="SchoolPage-MealsZone-Meals">
+                    {todayMeals[0]}
+                </div>
+                <div className ="SchoolPage-MealsZone-Meals">
+                    {todayMeals[1]}
+                </div>
+                <div className ="SchoolPage-MealsZone-Meals">
+                    {todayMeals[2]}
+                </div>
             </div>
         </div>
     );

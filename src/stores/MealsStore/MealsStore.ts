@@ -4,6 +4,8 @@ import { autobind } from 'core-decorators';
 
 @autobind
 class MealsStore {
+    @observable todayMeals: string[] = [];
+
     @action
     handleSchoolSearch = async (school_name: string) => {
         // 학교 검색
@@ -20,40 +22,10 @@ class MealsStore {
     }
 
     @action
-    handleYesterdayMeals = async (school_id: string, office_id: string) => {
-        // 어제 급식정보
+    handleGetMeals = async (school_id: string, office_id: string) => {
         try {
-            const response: object = await MealsRepository.handleYesterdayMeals(school_id, office_id);
-            return new Promise((resolve, reject) => {
-                resolve(response);
-            })
-        } catch (error) {
-            return new Promise((resolve, reject) => {
-                reject(error);
-            })
-        }
-    }
-
-    @action
-    handleTodayMeals = async (school_id: string, office_id: string) => {
-        // 오늘 급식정보
-        try {
-            const response: object = await MealsRepository.handleTodayMeals(school_id, office_id);
-            return new Promise((resolve, reject) => {
-                resolve(response);
-            })
-        } catch (error) {
-            return new Promise((resolve, reject) => {
-                reject(error);
-            })
-        }
-    }
-
-    @action
-    handleTomorrowMeals = async (school_id: string, office_id: string) => {
-        // 내일 급식정보
-        try {
-            const response: object = await MealsRepository.handleTomorrowMeals(school_id, office_id);
+            const response: any = await MealsRepository.handleGetMeals(school_id, office_id);
+            this.todayMeals = response.data.meal;
             return new Promise((resolve, reject) => {
                 resolve(response);
             })

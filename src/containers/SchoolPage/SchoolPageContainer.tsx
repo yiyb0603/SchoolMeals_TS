@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import SchoolPage from '../../components/SchoolPage';
 
@@ -7,22 +7,15 @@ interface SchoolPageContainerProps {
 }
 
 const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
-    const school_id = JSON.parse(localStorage.getItem('schoolInfo') || '[]').school_id;
-    const office_id = JSON.parse(localStorage.getItem('schoolInfo') || '[]').office_id;
-
-    const [todayMeals, setTodayMeals] = useState([]);
-    const { handleTodayMeals } = store.MealsStore;
+    const { school_code, office_code } = JSON.parse(localStorage.getItem('schoolInfo') || '[]');
+    const { handleGetMeals, todayMeals } = store.MealsStore;
 
     const requestTodayMeals = useCallback(() => {
-        handleTodayMeals(school_id, office_id)
-            .then ((response: any) => {
-                console.log(response);
-            })
-
+        handleGetMeals(school_code, office_code)
             .catch ((error: any) => {
                 console.log(error);
             })
-    }, [handleTodayMeals, office_id, school_id]);
+    }, [handleGetMeals, office_code, school_code]);
 
     useEffect(() => {
         requestTodayMeals();
@@ -30,7 +23,7 @@ const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
 
     return (
         <>
-            <SchoolPage />
+            <SchoolPage todayMeals ={todayMeals} />
         </>
     );
 }
