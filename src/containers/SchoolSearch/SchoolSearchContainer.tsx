@@ -17,7 +17,6 @@ const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
 
     const requestSchoolSearch = useCallback((event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log('adsfasdfadsf');
         if (searchValue === '') {
             setIsSearch(false);
         }
