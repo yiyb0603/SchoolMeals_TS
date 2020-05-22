@@ -19,7 +19,7 @@ interface SchoolSearchProps extends RouteComponentProps<any> {
 const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearch, schoolList, history } : SchoolSearchProps) => {
     const schoolLists = (params : string[]): any => {
         return params.map((school: any, index: number) => {
-            const { office_code, school_code, school_locate, school_name } = school;
+            const { office_code, school_id, school_locate, school_name } = school;
 
             const data = {
                 school_name,
@@ -60,7 +60,7 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
             }
 
             {
-                isSearch && <h1 className ="SchoolSearch-Result">{schoolList.length}개의 학교 검색결과</h1>
+                isSearch && <h1 className ="SchoolSearch-Result">학교 검색결과</h1>
             }
 
             <div className ="SchoolSearch-SchoolList">

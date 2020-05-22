@@ -5,12 +5,14 @@ import { autobind } from 'core-decorators';
 @autobind
 class MealsStore {
     @observable todayMeals: string[] = [];
+    @observable schoolList: any = [];
 
     @action
     handleSchoolSearch = async (school_name: string, page: number) => {
         // 학교 검색
         try {
-            const response: object = await MealsRepository.handleSchoolSearch(school_name, page);
+            const response: { data: { schools: React.SetStateAction<never[]>; }; } = await MealsRepository.handleSchoolSearch(school_name, page);
+            this.schoolList = response.data.schools;
             return new Promise((resolve, reject) => {
                 resolve(response);
             })

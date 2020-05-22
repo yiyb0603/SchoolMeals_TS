@@ -8,9 +8,8 @@ interface SchoolSearchContainerProps {
 
 const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
     const [searchValue, setSearchValue] = useState<string>('');
-    const [schoolList, setSchoolList] = useState([]);
     const [isSearch, setIsSearch] = useState<boolean>(false);
-    const { handleSchoolSearch } = store.MealsStore;
+    const { handleSchoolSearch, schoolList } = store.MealsStore;
 
     const onChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
@@ -18,19 +17,18 @@ const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
 
     const requestSchoolSearch = useCallback((event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        console.log('adsfasdfadsf');
         if (searchValue === '') {
             setIsSearch(false);
         }
         
-        handleSchoolSearch(searchValue)
-            .then ((response: { status: number; data: { schoolList: React.SetStateAction<never[]>; }; }) => {
-                if (response.status === 200) {
-                    setSchoolList(response.data.schoolList);
-                    setIsSearch(true);
-                }
+        handleSchoolSearch(searchValue, 1)
+            .then (() => {
+                setIsSearch(true);
             })
 
             .catch ((error: any) => {
+                console.log(error);
                 return error;
             })
     }, [handleSchoolSearch, searchValue]);
