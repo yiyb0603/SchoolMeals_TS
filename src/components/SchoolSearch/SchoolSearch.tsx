@@ -24,7 +24,7 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
             const data = {
                 school_name,
                 office_code,
-                school_code,
+                school_id,
                 school_locate
             };
 

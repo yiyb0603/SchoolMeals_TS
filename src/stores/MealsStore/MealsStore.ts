@@ -7,10 +7,10 @@ class MealsStore {
     @observable todayMeals: string[] = [];
 
     @action
-    handleSchoolSearch = async (school_name: string) => {
+    handleSchoolSearch = async (school_name: string, page: number) => {
         // 학교 검색
         try {
-            const response: object = await MealsRepository.handleSchoolSearch(school_name);
+            const response: object = await MealsRepository.handleSchoolSearch(school_name, page);
             return new Promise((resolve, reject) => {
                 resolve(response);
             })
@@ -22,9 +22,9 @@ class MealsStore {
     }
 
     @action
-    handleGetMeals = async (school_id: string, office_id: string) => {
+    handleGetMeals = async (school_id: string, office_code: string, date: string) => {
         try {
-            const response: any = await MealsRepository.handleGetMeals(school_id, office_id);
+            const response: any = await MealsRepository.handleGetMeals(school_id, office_code, date);
             this.todayMeals = response.data.meal;
             return new Promise((resolve, reject) => {
                 resolve(response);

@@ -7,15 +7,15 @@ interface SchoolPageContainerProps {
 }
 
 const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
-    const { school_code, office_code } = JSON.parse(localStorage.getItem('schoolInfo') || '[]');
+    const { school_id, office_code } = JSON.parse(localStorage.getItem('schoolInfo') || '[]');
     const { handleGetMeals, todayMeals } = store.MealsStore;
 
     const requestTodayMeals = useCallback(() => {
-        handleGetMeals(school_code, office_code)
+        handleGetMeals(school_id, office_code)
             .catch ((error: any) => {
                 console.log(error);
             })
-    }, [handleGetMeals, office_code, school_code]);
+    }, [handleGetMeals, office_code, school_id]);
 
     useEffect(() => {
         requestTodayMeals();
