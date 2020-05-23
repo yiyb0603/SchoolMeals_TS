@@ -6,29 +6,11 @@
 
     &-Top {
         width: 80%;
-        margin-left: 10%;
+        margin-left: 5%;
         margin-top: 5%;
         user-select: none;
         -moz-user-select: none;
         -webkit-user-select: none;
-
-        &-TimeZone {
-            color: white;
-            float: right;
-            font-weight: bold;
-            font-size: 1.7rem;
-
-            &-Time {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                letter-spacing: 1px;
-
-                & > * {
-                    margin-right: 5px;
-                }
-            }
-        }
 
         &-SchoolLocate {
             margin-left: 4%;
@@ -37,9 +19,28 @@
 
         &-Another {
             display: flex;
+            display: -webkit-flex;
             align-items: center;
             margin-bottom: 1rem;
             font-weight: bold;
+
+            &-TimeZone {
+                color: white;
+                float: right;
+                font-weight: bold;
+                font-size: 1.7rem;
+    
+                &-Time {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    letter-spacing: 1px;
+    
+                    & > * {
+                        margin-right: 5px;
+                    }
+                }
+            }
 
             & > * {
                 margin-right: 20px;
@@ -75,15 +76,62 @@
     
     }
 
+    &-DateZone {
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1rem;
+        font-size: 1.5rem;
+
+        & > span {
+            margin-left: 2rem;
+            margin-right: 2rem;
+        }
+
+        &-Arrow {
+            cursor: pointer;
+            background-color: white;
+            border-radius: 50%;
+            font-size: 2.5rem;
+            padding: 5px;
+
+            &:hover {
+                background-color: black;
+                color: white;
+            }
+        }
+    }
+
     &-MealsZone {
         display: flex;
+        display: -webkit-flex;
         justify-content: space-around;
         align-items: center;
         margin-top: 2rem;
 
         &-Meals {
-            border: 2px solid white;
+            display: flex;
+            display: -webkit-flex;
+            flex-direction: column;
+            align-items: center;
+            width: 25%;
+            height: 40vh;
+            max-height: 50vh;
+            text-align: center;
+            border: 2px solid black;
+            border-radius: 25%;
+            box-shadow: 2px 2px 2px black;
             padding: 30px;
+            overflow-y: auto;
+
+            &-No {
+                margin-top: 3rem;
+            }
+
+            & > div {
+                margin-top: 10px;
+            }
         }
     }
 }

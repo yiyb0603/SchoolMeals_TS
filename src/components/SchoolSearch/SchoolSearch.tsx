@@ -4,6 +4,8 @@ import schoolImage from '../../assets/images/school.png';
 import { GoSearch } from 'react-icons/go';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import cafeteria from '../../assets/images/cafeteria.png';
+import error from '../../assets/images/error.png';
+import SecureLs from 'secure-ls';
 
 /* eslint-disable */
 
@@ -17,11 +19,12 @@ interface SchoolSearchProps extends RouteComponentProps<any> {
 }
 
 const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearch, schoolList, history } : SchoolSearchProps) => {
+    const ls: any = new SecureLs({ encodingType: 'aes' });
     const schoolLists = (params : string[]): any => {
         return params.map((school: any, index: number) => {
             const { office_code, school_id, school_locate, school_name } = school;
 
-            const data = {
+            const data: object = {
                 school_name,
                 office_code,
                 school_id,
@@ -30,7 +33,7 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
 
             return (
                 <div className ="SchoolSearch-SchoolList-Wrapper" key ={index} onClick ={() => {
-                    localStorage.setItem('schoolInfo', JSON.stringify(data));
+                    ls.set('schoolInfo', data);
                     history.push("/page");
                 }}>
                     <img src ={schoolImage} className ="SchoolSearch-SchoolImage" alt ="school" />
@@ -60,9 +63,16 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
             }
 
             {
-                isSearch && <h1 className ="SchoolSearch-Result">학교 검색결과</h1>
+                isSearch && schoolList.length === 0 ? <div className ="SchoolSearch-CheckZone">
+                    <img src ={error} alt ="cafeteria" className ="SchoolSearch-CheckZone-Image" />
+                    <div className ="SchoolSearch-CheckZone-Contents">맞는 학교를 찾지 못하였습니다.</div>
+                </div> : <></>
             }
 
+            {
+                isSearch && schoolList.length !== 0 ? <h1 className ="SchoolSearch-Result">{schoolList.length}개의 검색결과</h1> : <></>
+            }
+            
             <div className ="SchoolSearch-SchoolList">
             {
                 isSearch && schoolLists(schoolList)

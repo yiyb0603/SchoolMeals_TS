@@ -12,7 +12,7 @@ class MealsRepository {
         }
     }
 
-    handleGetMeals = async (school_id: string, office_code: string, date: string) => {
+    handleGetMeals = async (school_id: string, office_code: string, date: any) => {
         try {
             const { data } = await axios.get(`${SERVER}/meals?school_id=${school_id}&office_code=${office_code}&date=${date}`);
             return data;
