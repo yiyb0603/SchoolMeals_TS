@@ -1,6 +1,5 @@
 import React from 'react';
 import './SchoolPage.scss';
-import { inject, observer } from 'mobx-react';
 import { FaSchool, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 // import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
@@ -11,15 +10,15 @@ import moment from 'moment';
 
 interface SchoolPageProps extends RouteComponentProps<any> {
     history: any;
-    todayMeals: any;
+    todayMeals: string[];
     date: string;
-    store?: any;
-    requestTodayMeals: any;
+    requestTodayMeals: () => void;
+    handlePlusDay: () => void;
+    handleMinusDay: () => void;
 }
 
-const SchoolPage = ({ history, todayMeals, date, store, requestTodayMeals } : SchoolPageProps) => {
+const SchoolPage = ({ history, todayMeals, date, requestTodayMeals, handlePlusDay, handleMinusDay } : SchoolPageProps) => {
     const ls: any = new SecureLs({ encodingType: 'aes' });
-    const { handlePlusDay, handleMinusDay } = store.MealsStore;
     const { school_name, school_locate }: any = ls.get('schoolInfo');
     // const [time, setTime] = useState(new Date());
 
@@ -120,4 +119,4 @@ const SchoolPage = ({ history, todayMeals, date, store, requestTodayMeals } : Sc
     );
 }
 
-export default inject('store')(observer(withRouter(SchoolPage)));
+export default withRouter(SchoolPage);

@@ -24,10 +24,10 @@ class MealsStore {
     }
 
     @action
-    handleGetMeals = async (school_id: string, office_code: string) => {
+    handleGetMeals = async (school_id: string, office_code: string, date: string) => {
         try {
             this.isLoading = true;
-            const response: any = await MealsRepository.handleGetMeals(school_id, office_code, this.date);
+            const response: any = await MealsRepository.handleGetMeals(school_id, office_code, date);
             this.isLoading = false;
             return new Promise((resolve, reject) => {
                 resolve(response);
@@ -37,16 +37,6 @@ class MealsStore {
                 reject(error);
             })
         }
-    }
-
-    @action
-    handlePlusDay = () => {
-        this.date = moment(this.date).add('+1', 'day').format('YYYY-MM-DD');
-    }
-
-    @action
-    handleMinusDay = () => {
-        this.date = moment(this.date).add('-1', 'day').format('YYYY-MM-DD');
     }
 }
 

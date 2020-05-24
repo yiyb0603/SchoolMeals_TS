@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import SchoolPage from '../../components/SchoolPage';
 import SecureLs from 'secure-ls';
+import moment from 'moment';
 
 interface SchoolPageContainerProps {
     store?: any;
@@ -9,13 +10,14 @@ interface SchoolPageContainerProps {
 
 const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
     const ls = new SecureLs({ encodingType: 'aes' });
-    const [todayMeals, setTodayMeals] = useState([]);
-    const { handleGetMeals, date } = store.MealsStore;
+    const [todayMeals, setTodayMeals] = useState<string[]>([]);
+    const [date, setDate] = useState<string>(moment().format("yyyyMMDD"));
+    const { handleGetMeals } = store.MealsStore;
     const { school_id, office_code } = ls.get("schoolInfo");
 
     const requestTodayMeals = useCallback(() => {
-        handleGetMeals(school_id, office_code)
-            .then ((response: { status: number; data: { meals: React.SetStateAction<never[]>; }; }) => {
+        handleGetMeals(school_id, office_code, date)
+            .then ((response: { status: number; data: { meals: string[]; }; }) => {
                 if (response.status === 200) {
                     setTodayMeals(response.data.meals);
                 }
@@ -24,15 +26,24 @@ const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
             .catch ((error: any) => {
                 console.log(error);
             })
-    }, [handleGetMeals, office_code, school_id]);
+    }, [date, handleGetMeals, office_code, school_id]);
+
+    const handlePlusDay = useCallback(() => {
+        setDate(moment(date).add('+1', 'day').format('yyyyMMDD'));
+    }, [date]);
+
+    const handleMinusDay = useCallback(() => {
+        setDate(moment(date).add('-1', 'day').format('yyyyMMDD'));
+    }, [date]);
 
     useEffect(() => {
         requestTodayMeals();
-    }, []);
+    }, [requestTodayMeals, date, setDate]);
 
     return (
         <>
-            <SchoolPage todayMeals ={todayMeals} date ={date} requestTodayMeals ={requestTodayMeals} />
+            <SchoolPage todayMeals ={todayMeals} date ={date} requestTodayMeals ={requestTodayMeals} 
+                handlePlusDay ={handlePlusDay} handleMinusDay ={handleMinusDay} />
         </>
     );
 }
