@@ -32,13 +32,20 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
             };
 
             return (
-                <div className ="SchoolSearch-SchoolList-Wrapper" key ={index} onClick ={() => {
-                    ls.set('schoolInfo', data);
-                    history.push("/page");
-                }}>
+                <div className ="SchoolSearch-SchoolList-Wrapper" key ={index}>
                     <img src ={schoolImage} className ="SchoolSearch-SchoolImage" alt ="school" />
                     <div className ="SchoolSearch-SchoolList-Item">{school_name}</div>
                     <div className ="SchoolSearch-SchoolList-Item">주소: {school_locate}</div>
+                    <div className ="SchoolSearch-SchoolList-Item-ButtonZone">
+                        <button className ="SchoolSearch-SchoolList-Item-ButtonZone-Meals" onClick ={() => {
+                            ls.set('schoolInfo', data);
+                            history.push("/page");
+                        }}>Meals</button>
+                        <button className ="SchoolSearch-SchoolList-Item-ButtonZone-Schedule" onClick ={() => {
+                            ls.set('schoolInfo', data);
+                            history.push("/schedule");
+                        }}>Schedules</button>
+                    </div>
                 </div>
             );
         })

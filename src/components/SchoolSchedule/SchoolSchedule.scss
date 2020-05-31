@@ -1,0 +1,40 @@
+.SchoolSchedule {
+    overflow: hidden;
+    background: linear-gradient(to right, #4776E6, rgb(105, 47, 197)) fixed;
+    &-SchoolName {
+        padding-top: 1rem;
+        font-size: 1.3rem;
+        display: flex;
+        justify-content: center;
+        & > * {
+           margin-right: 10px;
+           vertical-align: middle; 
+        }
+    }
+
+    &-Calendar {
+        width: 90%;
+        margin: auto;
+        & > * {
+            margin-top: 1rem;
+        }
+    }
+
+    &-Date {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & > * {
+            border: none;
+            outline: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            margin-top: 5px;
+            & > * {
+                vertical-align: middle;
+            }
+        }
+    }
+}

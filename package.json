@@ -28,6 +28,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@toast-ui/react-calendar": "^1.0.5",
     "@types/axios": "^0.14.0",
     "@types/classnames": "^2.2.10",
     "@types/dateformat": "^3.0.1",
