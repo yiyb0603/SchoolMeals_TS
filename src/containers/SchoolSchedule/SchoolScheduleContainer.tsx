@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, MutableRefObject, useState, useEffect, SetStateAction } from 'react';
+import React, { useRef, useCallback, MutableRefObject, useState, useEffect } from 'react';
 import SchoolSchedule from '../../components/SchoolSchedule';
 import { inject, observer } from 'mobx-react';
 import SecureLs from 'secure-ls';

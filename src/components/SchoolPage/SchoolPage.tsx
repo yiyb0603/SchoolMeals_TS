@@ -17,9 +17,14 @@ interface SchoolPageProps extends RouteComponentProps<any> {
     handleMinusDay: () => void;
 }
 
+interface schoolInfoType {
+    school_name: string;
+    school_locate: string;
+}
+
 const SchoolPage = ({ history, todayMeals, date, requestTodayMeals, handlePlusDay, handleMinusDay } : SchoolPageProps) => {
-    const ls: any = new SecureLs({ encodingType: 'aes' });
-    const { school_name, school_locate }: any = ls.get('schoolInfo');
+    const ls = new SecureLs({ encodingType: 'aes' });
+    const { school_name, school_locate }: schoolInfoType = ls.get('schoolInfo');
     // const [time, setTime] = useState(new Date());
 
     // setInterval(() => {

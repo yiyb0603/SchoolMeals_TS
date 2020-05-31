@@ -18,7 +18,7 @@ interface SchoolScheduleProps {
 
 const SchoolSchedule = ({ calendarRef, handlePrevMonth, handleNextMonth, month, scheduleList } : SchoolScheduleProps) => {
   const ls = new SecureLs({ encodingType: 'aes' });
-  const { school_name } = ls.get("schoolInfo");
+  const { school_name }: { school_name: string } = ls.get("schoolInfo");
 
   return (
     <div className ="SchoolSchedule">
@@ -33,7 +33,7 @@ const SchoolSchedule = ({ calendarRef, handlePrevMonth, handleNextMonth, month, 
 
       <div className ="SchoolSchedule-Calendar">
         <Calendar
-          height ="90vh"
+          height ="100vh"
           ref={calendarRef}
           taskView
           schedules ={scheduleList}

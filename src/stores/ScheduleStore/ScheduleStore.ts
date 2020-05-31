@@ -11,16 +11,26 @@ class ScheduleStore {
     handleGetSchedules = async (school_id: string, office_code: string, date: string) => {
         try {
             const response: { status: number; data: { schedules: any; }; } = await ScheduleRepository.handleGetSchedules(school_id, office_code, date);
-            
+
             const localArray: any = [];
+
             for (let i = 0; i < response.data.schedules.length; i++) {
                 const scheduleValue = response.data.schedules[i];
-                const data: any = {
+
+                interface scheduleResponseInfoProps {
+                    title: string;
+                    start: string;
+                    category: string;
+                    isVisible: boolean;
+                }
+
+                const data: scheduleResponseInfoProps = {
                     title: scheduleValue.name,
                     start: moment(scheduleValue.date).format('YYYY-MM-DD'),
                     category: 'time',
                     isVisible: true,
                 }
+                
                 localArray.push(data);
                 this.scheduleList = localArray;
             }
