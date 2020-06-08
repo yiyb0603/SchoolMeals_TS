@@ -8,12 +8,17 @@ interface SchoolPageContainerProps {
     store?: any;
 }
 
+interface schoolInfoType {
+    school_id: string;
+    office_code: string;
+}
+
 const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
     const ls = new SecureLs({ encodingType: 'aes' });
     const [todayMeals, setTodayMeals] = useState<string[]>([]);
     const [date, setDate] = useState<string>(moment().format("yyyyMMDD"));
-    const { handleGetMeals } = store.MealsStore;
-    const { school_id, office_code } = ls.get("schoolInfo");
+    const { handleGetMeals }: { handleGetMeals: any } = store.MealsStore;
+    const { school_id, office_code }: schoolInfoType = ls.get("schoolInfo");
 
     const requestTodayMeals = useCallback(() => {
         handleGetMeals(school_id, office_code, date)

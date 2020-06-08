@@ -11,14 +11,17 @@ interface SchoolScheduleContainerProps {
 const SchoolScheduleContainer = ({ store } : SchoolScheduleContainerProps) => {
     const ls = new SecureLs({ encodingType: 'aes' });
     const [month, setMonth] = useState<string>(moment().format("yyyyMM"));
-    const { handleGetSchedules, scheduleList } = store.ScheduleStore;
     const calendarRef: MutableRefObject<any> = useRef();
-    const { school_id, office_code } = ls.get("schoolInfo");
+
+    const { handleGetSchedules, scheduleList }: 
+    { handleGetSchedules: (school_id: string, office_code: string, month: string) => Promise<any>; scheduleList: string[]; } = store.ScheduleStore;
+    const { school_id, office_code }: {
+        school_id: string; office_code: string; } = ls.get("schoolInfo");
 
     const requestSchedules = useCallback(() => {
         handleGetSchedules(school_id, office_code, month)
         .catch ((error: Error) => {
-            console.log(error);
+            return error;
         })
     }, [handleGetSchedules, month, office_code, school_id]);
 

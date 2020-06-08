@@ -9,7 +9,7 @@ import 'tui-time-picker/dist/tui-time-picker.css';
 import './SchoolSchedule.scss';
 
 interface SchoolScheduleProps {
-    calendarRef: MutableRefObject<any>;
+    calendarRef: MutableRefObject<Calendar>;
     handlePrevMonth: () => void;
     handleNextMonth: () => void;
     month: string;

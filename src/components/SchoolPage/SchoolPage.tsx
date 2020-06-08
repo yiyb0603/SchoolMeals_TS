@@ -24,7 +24,9 @@ interface schoolInfoType {
 
 const SchoolPage = ({ history, todayMeals, date, requestTodayMeals, handlePlusDay, handleMinusDay } : SchoolPageProps) => {
     const ls = new SecureLs({ encodingType: 'aes' });
-    const { school_name, school_locate }: schoolInfoType = ls.get('schoolInfo');
+    const { school_name, school_locate }: {
+        school_name: string;
+        school_locate: string; } = ls.get('schoolInfo');
     // const [time, setTime] = useState(new Date());
 
     // setInterval(() => {

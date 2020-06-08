@@ -22,7 +22,8 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
     const ls: any = new SecureLs({ encodingType: 'aes' });
     const schoolLists = (params : string[]): any => {
         return params.map((school: any, index: number) => {
-            const { office_code, school_id, school_locate, school_name } = school;
+            const { office_code, school_id, school_locate, school_name }:
+            { office_code: string; school_id: string; school_locate: string; school_name:string; }  = school;
 
             const data: object = {
                 school_name,

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useCallback, ChangeEvent, FormEvent, SetStateAction } from 'react';
 import { inject, observer } from 'mobx-react';
 import SchoolSearch from '../../components/SchoolSearch';
 
@@ -9,8 +9,8 @@ interface SchoolSearchContainerProps {
 const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
     const [searchValue, setSearchValue] = useState<string>('');
     const [isSearch, setIsSearch] = useState<boolean>(false);
-    const [schoolList, setSchoolList] = useState([]);
-    const { handleSchoolSearch } = store.MealsStore;
+    const [schoolList, setSchoolList] = useState<string[]>([]);
+    const { handleSchoolSearch }: { handleSchoolSearch: (school_name: string, page: number) => Promise<any>; } = store.MealsStore;
 
     const onChangeValue = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
@@ -20,13 +20,13 @@ const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
         event.preventDefault();
         
         handleSchoolSearch(searchValue, 1)
-            .then ((response: { status: number; data: { schools: React.SetStateAction<never[]>; }; }) => {
+            .then ((response: { status: number; data: { schools: SetStateAction<any[]>; }; }) => {
                 if (response.status === 200) {
                     setSchoolList(response.data.schools);
                 }
             })
 
-            .catch ((error: any) => {
+            .catch ((error: Error) => {
                 console.log(error);
                 return error;
             })
