@@ -19,6 +19,7 @@ interface SchoolScheduleProps {
 const SchoolSchedule = ({ calendarRef, handlePrevMonth, handleNextMonth, month, scheduleList } : SchoolScheduleProps) => {
   const ls = new SecureLs({ encodingType: 'aes' });
   const { school_name }: { school_name: string } = ls.get("schoolInfo");
+  console.log(scheduleList);
 
   return (
     <div className ="SchoolSchedule">
