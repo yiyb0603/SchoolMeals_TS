@@ -19,11 +19,20 @@ interface SchoolSearchProps extends RouteComponentProps<any> {
 }
 
 const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearch, schoolList, history } : SchoolSearchProps) => {
-    const ls: any = new SecureLs({ encodingType: 'aes' });
-    const schoolLists = (params : string[]): any => {
+    const ls: {
+        set: (arg1: string, arg2: any) => void;
+    } = new SecureLs({ encodingType: 'aes' });
+
+    type schoolInfo = {
+        school_name: string;
+        office_code: string;
+        school_id: string;
+        school_locate: string;
+    }
+
+    const schoolLists = (params : string[]) => {
         return params.map((school: any, index: number) => {
-            const { office_code, school_id, school_locate, school_name }:
-            { office_code: string; school_id: string; school_locate: string; school_name:string; }  = school;
+            const { office_code, school_id, school_locate, school_name }: schoolInfo  = school;
 
             const data: object = {
                 school_name,

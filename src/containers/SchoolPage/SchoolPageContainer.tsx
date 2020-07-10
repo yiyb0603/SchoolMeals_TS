@@ -8,21 +8,34 @@ interface SchoolPageContainerProps {
     store?: any;
 }
 
-interface schoolInfoType {
-    school_id: string;
-    office_code: string;
-}
-
 const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
-    const ls = new SecureLs({ encodingType: 'aes' });
+    type schoolInfoType = {
+        school_id: string;
+        office_code: string;
+    }
+
+    type mealsResponseType = {
+        status: number;
+        data: {
+            meals: string[];
+        };
+    };
+
+    const ls: {
+        get: (arg1: string) => schoolInfoType;
+    } = new SecureLs({ encodingType: 'aes' });
+
     const [todayMeals, setTodayMeals] = useState<string[]>([]);
     const [date, setDate] = useState<string>(moment().format("yyyyMMDD"));
-    const { handleGetMeals }: { handleGetMeals: any } = store.MealsStore;
+    
+    const { handleGetMeals }: { 
+        handleGetMeals: (school_id: string, office_code: string, date: string) => Promise<mealsResponseType>
+    } = store.MealsStore;
     const { school_id, office_code }: schoolInfoType = ls.get("schoolInfo");
 
     const requestTodayMeals = useCallback(() => {
         handleGetMeals(school_id, office_code, date)
-            .then ((response: { status: number; data: { meals: string[]; }; }) => {
+            .then ((response: mealsResponseType) => {
                 if (response.status === 200) {
                     setTodayMeals(response.data.meals);
                 }

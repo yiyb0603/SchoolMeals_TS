@@ -9,14 +9,25 @@ interface SchoolScheduleContainerProps {
 }
 
 const SchoolScheduleContainer = ({ store } : SchoolScheduleContainerProps) => {
-    const ls = new SecureLs({ encodingType: 'aes' });
+    type schoolInfo = {
+        school_id: string;
+        office_code: string;
+    }
+
+    type scheduleInfo = {
+        handleGetSchedules: (school_id: string, office_code: string, month: string) => Promise<object>;
+        scheduleList: string[]; 
+    }
+
+    const ls: {
+        get: (arg1: string) => schoolInfo
+    } = new SecureLs({ encodingType: 'aes' });
+
     const [month, setMonth] = useState<string>(moment().format("yyyyMM"));
     const calendarRef: MutableRefObject<any> = useRef();
 
-    const { handleGetSchedules, scheduleList }: 
-    { handleGetSchedules: (school_id: string, office_code: string, month: string) => Promise<any>; scheduleList: string[]; } = store.ScheduleStore;
-    const { school_id, office_code }: {
-        school_id: string; office_code: string; } = ls.get("schoolInfo");
+    const { handleGetSchedules, scheduleList }: scheduleInfo = store.ScheduleStore;
+    const { school_id, office_code }: schoolInfo = ls.get("schoolInfo");
 
     const requestSchedules = useCallback(() => {
         handleGetSchedules(school_id, office_code, month)

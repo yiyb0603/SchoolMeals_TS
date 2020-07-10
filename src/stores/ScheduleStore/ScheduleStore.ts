@@ -17,14 +17,14 @@ class ScheduleStore {
             for (let i = 0; i < response.data.schedules.length; i++) {
                 const scheduleValue = response.data.schedules[i];
 
-                interface scheduleResponseInfoProps {
+                type scheduleResponseInfo = {
                     title: string;
-                    start: string;
+                    start: Date | string;
                     category: string;
                     isVisible: boolean;
                 }
 
-                const data: scheduleResponseInfoProps = {
+                const data: scheduleResponseInfo = {
                     title: scheduleValue.name,
                     start: moment(scheduleValue.date).format('YYYY-MM-DD'),
                     category: 'time',

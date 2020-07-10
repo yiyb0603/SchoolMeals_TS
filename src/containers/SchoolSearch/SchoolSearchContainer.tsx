@@ -8,11 +8,22 @@ interface SchoolSearchContainerProps {
 }
 
 const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
+    type schoolSearchInfo = {
+        handleSchoolSearch: (school_name: string, page: number) => Promise<searchResponseType>;
+    }
+
+    type searchResponseType = {
+        status: number;
+        data: {
+            schools: string[];
+        };
+    };
+
     const [searchValue, setSearchValue] = useState<string>('');
     const [isSearch, setIsSearch] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [schoolList, setSchoolList] = useState<string[]>([]);
-    const { handleSchoolSearch }: { handleSchoolSearch: (school_name: string, page: number) => Promise<any>; } = store.MealsStore;
+    const { handleSchoolSearch }: schoolSearchInfo = store.MealsStore;
 
     const onChangeValue = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
@@ -23,14 +34,13 @@ const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
         setIsLoading(true);
         
         handleSchoolSearch(searchValue, 1)
-            .then ((response: { status: number; data: { schools: SetStateAction<any[]>; }; }) => {
+            .then ((response: searchResponseType) => {
                 if (response.status === 200) {
                     setSchoolList(response.data.schools);
                 }
             })
 
             .catch ((error: Error) => {
-                console.log(error);
                 return error;
             })
 
@@ -44,7 +54,7 @@ const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
         <>
         {
             isLoading ? <Loading /> : <SchoolSearch searchValue ={searchValue} onChangeValue ={onChangeValue} requestSchoolSearch ={requestSchoolSearch} 
-            isSearch ={isSearch} schoolList ={schoolList}
+                isSearch ={isSearch} schoolList ={schoolList}
         />
         }
         </>

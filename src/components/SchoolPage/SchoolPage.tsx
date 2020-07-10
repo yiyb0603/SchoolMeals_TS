@@ -2,14 +2,13 @@ import React from 'react';
 import './SchoolPage.scss';
 import { FaSchool, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-// import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
-// import DateFnsUtils from '@date-io/date-fns';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import SecureLs from 'secure-ls';
 import moment from 'moment';
+import { History, LocationState } from 'history';
 
 interface SchoolPageProps extends RouteComponentProps<any> {
-    history: any;
+    history: History<LocationState>;
     todayMeals: string[];
     date: string;
     requestTodayMeals: () => void;
@@ -17,21 +16,18 @@ interface SchoolPageProps extends RouteComponentProps<any> {
     handleMinusDay: () => void;
 }
 
-interface schoolInfoType {
-    school_name: string;
-    school_locate: string;
-}
-
 const SchoolPage = ({ history, todayMeals, date, requestTodayMeals, handlePlusDay, handleMinusDay } : SchoolPageProps) => {
-    const ls = new SecureLs({ encodingType: 'aes' });
-    const { school_name, school_locate }: {
+    type schoolInfoType = {
         school_name: string;
-        school_locate: string; } = ls.get('schoolInfo');
-    // const [time, setTime] = useState(new Date());
+        school_locate: string;
+    }
 
-    // setInterval(() => {
-    //     setTime(new Date());
-    // }, 1000);
+    const ls: {
+        get: (arg1: string) => schoolInfoType;
+        remove: (arg1: string) => void;
+    } = new SecureLs({ encodingType: 'aes' });
+
+    const { school_name, school_locate }: schoolInfoType = ls.get('schoolInfo');
 
     return (
         <div className ="SchoolPage">

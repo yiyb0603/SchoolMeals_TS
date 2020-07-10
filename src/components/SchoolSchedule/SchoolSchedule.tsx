@@ -9,17 +9,19 @@ import 'tui-time-picker/dist/tui-time-picker.css';
 import './SchoolSchedule.scss';
 
 interface SchoolScheduleProps {
-    calendarRef: MutableRefObject<Calendar>;
-    handlePrevMonth: () => void;
-    handleNextMonth: () => void;
-    month: string;
-    scheduleList: any;
+  calendarRef: MutableRefObject<Calendar>;
+  handlePrevMonth: () => void;
+  handleNextMonth: () => void;
+  month: string;
+  scheduleList: any;
 }
 
 const SchoolSchedule = ({ calendarRef, handlePrevMonth, handleNextMonth, month, scheduleList } : SchoolScheduleProps) => {
-  const ls = new SecureLs({ encodingType: 'aes' });
+  const ls: {
+    get: (arg1: string) => { school_name: string };
+  } = new SecureLs({ encodingType: 'aes' });
+
   const { school_name }: { school_name: string } = ls.get("schoolInfo");
-  console.log(scheduleList);
 
   return (
     <div className ="SchoolSchedule">

@@ -12,13 +12,13 @@ class MealsStore {
     handleSchoolSearch = async (school_name: string, page: number) => {
         // 학교 검색
         try {
-            const response: object = await MealsRepository.handleSchoolSearch(school_name, page);
-            return new Promise((resolve, reject) => {
+            const response: Response = await MealsRepository.handleSchoolSearch(school_name, page);
+            return new Promise((resolve: (response: Response) => void, reject) => {
                 resolve(response);
             })
-        } catch (e) {
-            return new Promise((resolve, reject) => {
-                reject(e);
+        } catch (error) {
+            return new Promise((resolve, reject: (error: Error) => void) => {
+                reject(error);
             })
         }
     }
@@ -27,13 +27,13 @@ class MealsStore {
     handleGetMeals = async (school_id: string, office_code: string, date: string) => {
         try {
             this.isLoading = true;
-            const response: any = await MealsRepository.handleGetMeals(school_id, office_code, date);
+            const response: Response = await MealsRepository.handleGetMeals(school_id, office_code, date);
             this.isLoading = false;
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve: (response: Response) => void, reject) => {
                 resolve(response);
             })
         } catch (error) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve, reject: (error: Error) => void) => {
                 reject(error);
             })
         }
