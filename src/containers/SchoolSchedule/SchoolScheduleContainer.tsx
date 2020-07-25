@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import moment from 'moment';
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
+import { Error } from 'type/ErrorType';
 
 interface SchoolScheduleContainerProps {
     store?: {
@@ -22,7 +23,6 @@ const SchoolScheduleContainer = ({ store } : SchoolScheduleContainerProps) => {
     const calendarRef: MutableRefObject<any> = useRef();
 
     const { handleGetSchedules, scheduleList, isLoading } = store.ScheduleStore;
-    console.log(scheduleList);
     const requestSchedules = useCallback(async () => {
         await handleGetSchedules(school_id, office_code, month)
             .catch ((error: Error) => {

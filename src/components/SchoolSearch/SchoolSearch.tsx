@@ -16,10 +16,11 @@ interface SchoolSearchProps extends RouteComponentProps {
     isSearch: boolean;
     schoolList: string[];
     isLoading: boolean;
+    errorMessage: string;
     history: History<LocationState>;
 }
 
-const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearch, schoolList, history, isLoading } : SchoolSearchProps) => {
+const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearch, schoolList, history,isLoading, errorMessage } : SchoolSearchProps) => {
     const ls: {
         set: (arg1: string, arg2: any) => void;
     } = new SecureLs({ encodingType: 'aes' });
@@ -84,7 +85,7 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
             {
                 isSearch && schoolList.length === 0 ? <div className ="SchoolSearch-CheckZone">
                     <img src ={error} alt ="cafeteria" className ="SchoolSearch-CheckZone-Image" />
-                    <div className ="SchoolSearch-CheckZone-Contents">맞는 학교를 찾지 못하였습니다.</div>
+                    <div className ="SchoolSearch-CheckZone-Contents">{errorMessage}</div>
                 </div> : <></>
             }
 

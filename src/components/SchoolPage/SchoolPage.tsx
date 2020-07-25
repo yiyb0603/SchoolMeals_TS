@@ -27,7 +27,7 @@ const SchoolPage = ({ history, dailyMeals, date, handlePlusDay, handleMinusDay, 
         get: (arg1: string) => schoolInfoType;
         remove: (arg1: string) => void;
     } = new SecureLs({ encodingType: 'aes' });
-
+    
     const { school_name, school_locate }: schoolInfoType = ls.get('schoolInfo');
 
     return (
@@ -87,9 +87,7 @@ const SchoolPage = ({ history, dailyMeals, date, handlePlusDay, handleMinusDay, 
                 {
                     dailyMeals[1] ? dailyMeals[1].split("<br/>").map((meal: string, index: number) => {
                         return (
-                            <>
-                                <div key ={index}>{meal}</div>
-                            </>
+                            <div key ={index}>{meal}</div>
                         );
                     }) : <div className ="SchoolPage-MealsZone-Meals-No">급식이 없습니다</div>
                 }
@@ -99,9 +97,7 @@ const SchoolPage = ({ history, dailyMeals, date, handlePlusDay, handleMinusDay, 
                 {
                     dailyMeals[2] ? dailyMeals[2].split("<br/>").map((meal: string, index: number) => {
                         return (
-                            <>
-                                <div key ={index}>{meal}</div>
-                            </>
+                            <div key ={index}>{meal}</div>
                         );
                     }) : <div className ="SchoolPage-MealsZone-Meals-No">급식이 없습니다.</div>
                 }

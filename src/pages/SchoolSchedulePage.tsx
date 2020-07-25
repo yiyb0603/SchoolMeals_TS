@@ -1,5 +1,5 @@
 import React from 'react';
-import SchoolScheduleContainer from '../containers/SchoolSchedule/SchoolScheduleContainer';
+import SchoolScheduleContainer from '../containers/SchoolSchedule';
 import PageTemplate from '../components/Common/PageTemplate';
 
 const SchoolSchedulePage = () => {

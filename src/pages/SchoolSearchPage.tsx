@@ -1,5 +1,5 @@
 import React from 'react';
-import SchoolSearchContainer from '../containers/SchoolSearch/SchoolSearchContainer';
+import SchoolSearchContainer from '../containers/SchoolSearch';
 import PageTemplate from '../components/Common/PageTemplate';
 
 const SchoolSearchPage = () => {

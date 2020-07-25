@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import { useLocation } from 'react-router-dom';
-import queryString from 'query-string';
+import queryString, { ParsedQuery } from 'query-string';
 import moment from 'moment';
 import SchoolPage from '../../components/SchoolPage';
+import { Error } from 'type/ErrorType';
 
 interface SchoolPageContainerProps {
     store?: {
@@ -16,7 +17,7 @@ interface SchoolPageContainerProps {
 
 const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
     const { search } = useLocation();
-    const { school_id, office_code } = queryString.parse(search);
+    const { school_id, office_code }: ParsedQuery<string> = queryString.parse(search);
 
     type mealsResponseType = {
         status: number;
@@ -35,7 +36,12 @@ const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
                 setDailyMeals(response.data.meals);
             })
             .catch ((error: Error) => {
-                console.log(error);
+                const { status } = error.response.data;
+
+                if (status === 404) {
+                    setDailyMeals([]);
+                }
+                return error;
             })
     }, [date, handleGetMeals, office_code, school_id]);
 
