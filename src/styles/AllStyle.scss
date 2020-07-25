@@ -18,21 +18,5 @@
 }
 
 body {
-    &::-webkit-scrollbar {
-        width: 12px; 
-    }
-
-    &::-webkit-scrollbar-track {
-        background-color: transparent; 
-        border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background: blue;
-    }
-
-    &::-webkit-scrollbar-button {
-        display: none;
-    }
     overflow-x: hidden;
 }
