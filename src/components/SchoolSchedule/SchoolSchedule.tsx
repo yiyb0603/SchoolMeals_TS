@@ -7,24 +7,36 @@ import 'tui-calendar/dist/tui-calendar.css';
 import 'tui-date-picker/dist/tui-date-picker.css';
 import 'tui-time-picker/dist/tui-time-picker.css';
 import './SchoolSchedule.scss';
+import { Spinner } from '@class101/ui';
 
 interface SchoolScheduleProps {
   calendarRef: MutableRefObject<Calendar>;
   handlePrevMonth: () => void;
   handleNextMonth: () => void;
   month: string;
-  scheduleList: any;
-}
+  isLoading: boolean;
+  scheduleList: object[];
+};
 
-const SchoolSchedule = ({ calendarRef, handlePrevMonth, handleNextMonth, month, scheduleList } : SchoolScheduleProps) => {
+const SchoolSchedule = ({ calendarRef, handlePrevMonth, handleNextMonth, month, scheduleList, isLoading } : SchoolScheduleProps) => {
+  type schoolNameType = {
+    school_name: string;
+  };
+
   const ls: {
-    get: (arg1: string) => { school_name: string };
+    get: (arg1: string) => schoolNameType;
   } = new SecureLs({ encodingType: 'aes' });
 
-  const { school_name }: { school_name: string } = ls.get("schoolInfo");
+  const { school_name }: schoolNameType = ls.get("schoolInfo");
 
   return (
     <div className ="SchoolSchedule">
+      {
+        isLoading &&
+        <div className ="SchoolSchedule-LoadingWrapper">
+          <Spinner size={100} backgroundColor="skyblue" />
+        </div>
+      }
       <div className ="SchoolSchedule-SchoolName">
         <FaSchool /> <span>{school_name}의 일정</span>
       </div>

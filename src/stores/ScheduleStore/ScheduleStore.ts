@@ -5,26 +5,30 @@ import ScheduleRepository from './ScheduleRepository';
 
 @autobind
 class ScheduleStore {
-    @observable scheduleList = [];
+    @observable scheduleList: object[] = [];
+    @observable isLoading = false;
 
     @action
     handleGetSchedules = async (school_id: string, office_code: string, date: string) => {
-        try {
-            const response: { status: number; data: { schedules: any; }; } = await ScheduleRepository.handleGetSchedules(school_id, office_code, date);
+        type scheduleResponse = {
+            status: number;
+            data: {
+                schedules: [{
+                    name: string,
+                    date: string
+                }];
+            };
+        };
 
-            const localArray: any = [];
+        try {
+            this.isLoading = true;
+            const response: scheduleResponse = await ScheduleRepository.handleGetSchedules(school_id, office_code, date);
+            const localArray: object[] = [];
 
             for (let i = 0; i < response.data.schedules.length; i++) {
                 const scheduleValue = response.data.schedules[i];
 
-                type scheduleResponseInfo = {
-                    title: string;
-                    start: Date | string;
-                    category: string;
-                    isVisible: boolean;
-                }
-
-                const data: scheduleResponseInfo = {
+                const data: object = {
                     title: scheduleValue.name,
                     start: moment(scheduleValue.date).format('YYYY-MM-DD'),
                     category: 'time',
@@ -33,15 +37,13 @@ class ScheduleStore {
                 
                 localArray.push(data);
                 this.scheduleList = localArray;
-            }
-
-            return new Promise((resolve, reject) => {
-                resolve(response);
-            })
+            };
         } catch (error) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve: () => void, reject: (error: Error) => void) => {
                 reject(error);
-            })
+            });
+        } finally {
+            this.isLoading = false;
         }
     }
 }

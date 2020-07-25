@@ -1,39 +1,33 @@
 import React, { useRef, useCallback, MutableRefObject, useState, useEffect } from 'react';
 import SchoolSchedule from '../../components/SchoolSchedule';
 import { inject, observer } from 'mobx-react';
-import SecureLs from 'secure-ls';
 import moment from 'moment';
+import queryString from 'query-string';
+import { useLocation } from 'react-router-dom';
 
 interface SchoolScheduleContainerProps {
-    store?: any;
+    store?: {
+        ScheduleStore: {
+            handleGetSchedules: (school_id: string, office_code: string, month: string) => void | Promise<Error>,
+            scheduleList: object[];
+            isLoading: boolean;
+        };
+    } | any;
 }
 
 const SchoolScheduleContainer = ({ store } : SchoolScheduleContainerProps) => {
-    type schoolInfo = {
-        school_id: string;
-        office_code: string;
-    }
-
-    type scheduleInfo = {
-        handleGetSchedules: (school_id: string, office_code: string, month: string) => Promise<object>;
-        scheduleList: string[]; 
-    }
-
-    const ls: {
-        get: (arg1: string) => schoolInfo
-    } = new SecureLs({ encodingType: 'aes' });
-
     const [month, setMonth] = useState<string>(moment().format("yyyyMM"));
+    const { search } = useLocation();
+    const { school_id, office_code } = queryString.parse(search);
     const calendarRef: MutableRefObject<any> = useRef();
 
-    const { handleGetSchedules, scheduleList }: scheduleInfo = store.ScheduleStore;
-    const { school_id, office_code }: schoolInfo = ls.get("schoolInfo");
-
-    const requestSchedules = useCallback(() => {
-        handleGetSchedules(school_id, office_code, month)
-        .catch ((error: Error) => {
-            return error;
-        })
+    const { handleGetSchedules, scheduleList, isLoading } = store.ScheduleStore;
+    console.log(scheduleList);
+    const requestSchedules = useCallback(async () => {
+        await handleGetSchedules(school_id, office_code, month)
+            .catch ((error: Error) => {
+                return error;
+            });
     }, [handleGetSchedules, month, office_code, school_id]);
 
     const handlePrevMonth = useCallback(() => {
@@ -56,7 +50,7 @@ const SchoolScheduleContainer = ({ store } : SchoolScheduleContainerProps) => {
 
     return (
         <SchoolSchedule calendarRef ={calendarRef} handlePrevMonth ={handlePrevMonth} 
-            handleNextMonth ={handleNextMonth} month ={month} scheduleList ={scheduleList} />
+            handleNextMonth ={handleNextMonth} month ={month} scheduleList ={scheduleList} isLoading ={isLoading} />
     );
 }
 

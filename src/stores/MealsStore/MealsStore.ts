@@ -1,41 +1,55 @@
 import MealsRepository from './MealsRepository';
 import { observable, action } from 'mobx';
 import { autobind } from 'core-decorators';
-import moment from 'moment';
 
 @autobind
 class MealsStore {
-    @observable date: string = moment().format("yyyy-MM-DD");
-    @observable isLoading: boolean = true;
+    @observable isLoading: boolean = false;
+    @observable schoolList: never[] = [];
 
     @action
     handleSchoolSearch = async (school_name: string, page: number) => {
         // 학교 검색
+        type searchResponseType = {
+            status: number;
+            data: {
+                schools: never;
+            };
+        };
+
         try {
-            const response: Response = await MealsRepository.handleSchoolSearch(school_name, page);
-            return new Promise((resolve: (response: Response) => void, reject) => {
+            this.isLoading = true;
+            const response: searchResponseType = await MealsRepository.handleSchoolSearch(school_name, page);
+            this.schoolList = response.data.schools;
+
+            return new Promise((resolve: (response: searchResponseType) => void, reject: () => void) => {
                 resolve(response);
             })
         } catch (error) {
-            return new Promise((resolve, reject: (error: Error) => void) => {
+            return new Promise((resolve: () => void, reject: (error: Error) => void) => {
                 reject(error);
             })
+        } finally {
+            this.isLoading = false;
         }
     }
 
     @action
     handleGetMeals = async (school_id: string, office_code: string, date: string) => {
+        // 학교 급식 받아오기
+
         try {
             this.isLoading = true;
             const response: Response = await MealsRepository.handleGetMeals(school_id, office_code, date);
-            this.isLoading = false;
-            return new Promise((resolve: (response: Response) => void, reject) => {
+            return new Promise((resolve: (response: Response) => void, reject: () => void) => {
                 resolve(response);
-            })
+            });
         } catch (error) {
-            return new Promise((resolve, reject: (error: Error) => void) => {
+            return new Promise((resolve: () => void, reject: (error: Error) => void) => {
                 reject(error);
-            })
+            });
+        } finally {
+            this.isLoading = false;
         }
     }
 }

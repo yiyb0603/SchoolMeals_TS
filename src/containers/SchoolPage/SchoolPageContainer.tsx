@@ -1,47 +1,40 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import SchoolPage from '../../components/SchoolPage';
-import SecureLs from 'secure-ls';
 import moment from 'moment';
+import { useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 
 interface SchoolPageContainerProps {
-    store?: any;
-}
+    store?: {
+        MealsStore: {
+            handleGetMeals: (school_id: string, office_code: string, date: string) => Promise<Response | Error>,
+            isLoading : boolean,
+        };
+    } | any;
+};
 
 const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
-    type schoolInfoType = {
-        school_id: string;
-        office_code: string;
-    }
+    const { search } = useLocation();
+    const { school_id, office_code } = queryString.parse(search);
 
     type mealsResponseType = {
         status: number;
         data: {
-            meals: string[];
+            meals: never[];
         };
     };
 
-    const ls: {
-        get: (arg1: string) => schoolInfoType;
-    } = new SecureLs({ encodingType: 'aes' });
-
-    const [todayMeals, setTodayMeals] = useState<string[]>([]);
     const [date, setDate] = useState<string>(moment().format("yyyyMMDD"));
-    
-    const { handleGetMeals }: { 
-        handleGetMeals: (school_id: string, office_code: string, date: string) => Promise<mealsResponseType>
-    } = store.MealsStore;
-    const { school_id, office_code }: schoolInfoType = ls.get("schoolInfo");
+    const [dailyMeals, setDailyMeals] = useState<string[]>([]);
+    const { handleGetMeals, isLoading } = store.MealsStore;
 
-    const requestTodayMeals = useCallback(() => {
+    const requstDailyMeals = useCallback(() => {
         handleGetMeals(school_id, office_code, date)
-            .then ((response: mealsResponseType) => {
-                if (response.status === 200) {
-                    setTodayMeals(response.data.meals);
-                }
+            .then((response: mealsResponseType) => {
+                setDailyMeals(response.data.meals);
             })
-
-            .catch ((error: any) => {
+            .catch ((error: Error) => {
                 console.log(error);
             })
     }, [date, handleGetMeals, office_code, school_id]);
@@ -55,14 +48,13 @@ const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
     }, [date]);
 
     useEffect(() => {
-        requestTodayMeals();
-    }, [requestTodayMeals, date, setDate]);
+        requstDailyMeals();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [date, setDate]);
 
     return (
-        <>
-            <SchoolPage todayMeals ={todayMeals} date ={date} requestTodayMeals ={requestTodayMeals} 
-                handlePlusDay ={handlePlusDay} handleMinusDay ={handleMinusDay} />
-        </>
+        <SchoolPage dailyMeals ={dailyMeals} date ={date} requstDailyMeals ={requstDailyMeals} 
+            handlePlusDay ={handlePlusDay} handleMinusDay ={handleMinusDay} isLoading ={isLoading} />
     );
 }
 

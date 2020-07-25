@@ -6,17 +6,19 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import SecureLs from 'secure-ls';
 import moment from 'moment';
 import { History, LocationState } from 'history';
+import { Spinner } from '@class101/ui';
 
 interface SchoolPageProps extends RouteComponentProps<any> {
     history: History<LocationState>;
-    todayMeals: string[];
+    dailyMeals: string[];
     date: string;
-    requestTodayMeals: () => void;
+    requstDailyMeals: () => void;
     handlePlusDay: () => void;
     handleMinusDay: () => void;
+    isLoading: boolean;
 }
 
-const SchoolPage = ({ history, todayMeals, date, requestTodayMeals, handlePlusDay, handleMinusDay } : SchoolPageProps) => {
+const SchoolPage = ({ history, dailyMeals, date, requstDailyMeals, handlePlusDay, handleMinusDay, isLoading } : SchoolPageProps) => {
     type schoolInfoType = {
         school_name: string;
         school_locate: string;
@@ -31,6 +33,12 @@ const SchoolPage = ({ history, todayMeals, date, requestTodayMeals, handlePlusDa
 
     return (
         <div className ="SchoolPage">
+            {
+                isLoading && 
+                <div className ="SchoolPage-LoadingWrapper">
+                    <Spinner size={100} backgroundColor="skyblue" />
+                </div>
+            }
             <div className ="SchoolPage-Top">
                 <div className ="SchoolPage-Top-Another">
                     <IoMdArrowRoundBack className ="SchoolPage-Top-Another-Icon" onClick ={() => {
@@ -38,13 +46,6 @@ const SchoolPage = ({ history, todayMeals, date, requestTodayMeals, handlePlusDa
                         history.push("/");
                     }} />
                     <span className ="SchoolPage-Top-Another-Content">다른 학교 찾아보기</span>
-                    {/* <div className ="SchoolPage-Top-Another-TimeZone"> */}
-                    {/* <div>{time.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}</div> */}
-                    {/* <div className ="SchoolPage-Top-Another-TimeZone-Time">
-                        <FaClock style ={{verticalAlign: 'middle' }} />
-                        <div>{time.toLocaleTimeString('ko-KR')}</div>
-                    </div> */}
-                    {/* </div> */}
                 </div>
                 <br />
                 <div className ="SchoolPage-Top-NameZone">
@@ -58,10 +59,7 @@ const SchoolPage = ({ history, todayMeals, date, requestTodayMeals, handlePlusDa
             </div>
 
             <div className ="SchoolPage-DateZone">
-                <FaArrowLeft className ="SchoolPage-DateZone-Arrow" onClick ={() => {
-                    handleMinusDay();
-                    requestTodayMeals();
-                }} />
+                <FaArrowLeft className ="SchoolPage-DateZone-Arrow" onClick ={handleMinusDay}/>
                 <span>{moment(date).format("yyyy년 MM월 DD일")}</span>
                 {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <DatePicker
@@ -74,21 +72,16 @@ const SchoolPage = ({ history, todayMeals, date, requestTodayMeals, handlePlusDa
                         style={{ width: '80px' }}
                     />
                 </MuiPickersUtilsProvider> */}
-                <FaArrowRight className ="SchoolPage-DateZone-Arrow" onClick ={() => {
-                    handlePlusDay();
-                    requestTodayMeals();
-                }} />
+                <FaArrowRight className ="SchoolPage-DateZone-Arrow" onClick ={handlePlusDay}/>
             </div>
 
             <div className ="SchoolPage-MealsZone">
                 <div className ="SchoolPage-MealsZone-Meals">
                 <h2>아침</h2>
                 {
-                    todayMeals[0] ? todayMeals[0].split("<br/>").map((meal: string) => {
+                    dailyMeals[0] ? dailyMeals[0].split("<br/>").map((meal: string, index: number) => {
                         return (
-                            <>
-                                <div>{meal}</div>
-                            </>
+                            <div key ={index}>{meal}</div>
                         );
                     }) : <div className ="SchoolPage-MealsZone-Meals-No">급식이 없습니다</div>
                 }
@@ -96,10 +89,10 @@ const SchoolPage = ({ history, todayMeals, date, requestTodayMeals, handlePlusDa
                 <div className ="SchoolPage-MealsZone-Meals">
                 <h2>점심</h2>
                 {
-                    todayMeals[1] ? todayMeals[1].split("<br/>").map((meal: string) => {
+                    dailyMeals[1] ? dailyMeals[1].split("<br/>").map((meal: string, index: number) => {
                         return (
                             <>
-                                <div>{meal}</div>
+                                <div key ={index}>{meal}</div>
                             </>
                         );
                     }) : <div className ="SchoolPage-MealsZone-Meals-No">급식이 없습니다</div>
@@ -108,10 +101,10 @@ const SchoolPage = ({ history, todayMeals, date, requestTodayMeals, handlePlusDa
                 <div className ="SchoolPage-MealsZone-Meals">
                 <h2>저녁</h2>
                 {
-                    todayMeals[2] ? todayMeals[2].split("<br/>").map((meal: string) => {
+                    dailyMeals[2] ? dailyMeals[2].split("<br/>").map((meal: string, index: number) => {
                         return (
                             <>
-                                <div>{meal}</div>
+                                <div key ={index}>{meal}</div>
                             </>
                         );
                     }) : <div className ="SchoolPage-MealsZone-Meals-No">급식이 없습니다.</div>

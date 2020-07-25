@@ -1,10 +1,31 @@
 .SchoolSchedule {
+    width: 100%;
+    min-height: 100vh;
     overflow: hidden;
     background: linear-gradient(to right, #4776E6, rgb(105, 47, 197)) fixed;
+    background: -moz-linear-gradient(to right, #4776E6, rgb(105, 47, 197)) fixed;
+    background: -webkit-linear-gradient(to right, #4776E6, rgb(105, 47, 197)) fixed;
+    background: -o-linear-gradient(to right, #4776E6, rgb(105, 47, 197)) fixed;
+
+    &-LoadingWrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+    }
+
     &-SchoolName {
         padding-top: 1rem;
         font-size: 1.3rem;
         display: flex;
+        display: -webkit-flex;
         justify-content: center;
         & > * {
            margin-right: 10px;
@@ -22,6 +43,7 @@
 
     &-Date {
         display: flex;
+        display: -webkit-flex;
         justify-content: center;
         align-items: center;
 

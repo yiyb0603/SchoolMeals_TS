@@ -6,8 +6,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import cafeteria from '../../assets/images/cafeteria.png';
 import error from '../../assets/images/error.png';
 import SecureLs from 'secure-ls';
-
-/* eslint-disable */
+import { Spinner } from '@class101/ui';
 
 interface SchoolSearchProps extends RouteComponentProps<any> {
     searchValue: string;
@@ -15,10 +14,11 @@ interface SchoolSearchProps extends RouteComponentProps<any> {
     requestSchoolSearch: (event: FormEvent<HTMLFormElement>) => void;
     isSearch: boolean;
     schoolList: string[];
+    isLoading: boolean;
     history: any;
 }
 
-const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearch, schoolList, history } : SchoolSearchProps) => {
+const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearch, schoolList, history, isLoading } : SchoolSearchProps) => {
     const ls: {
         set: (arg1: string, arg2: any) => void;
     } = new SecureLs({ encodingType: 'aes' });
@@ -36,8 +36,6 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
 
             const data: object = {
                 school_name,
-                office_code,
-                school_id,
                 school_locate
             };
 
@@ -49,11 +47,11 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
                     <div className ="SchoolSearch-SchoolList-Item-ButtonZone">
                         <button className ="SchoolSearch-SchoolList-Item-ButtonZone-Meals" onClick ={() => {
                             ls.set('schoolInfo', data);
-                            history.push("/page");
+                            history.push(`/page?school_id=${school_id}&office_code=${office_code}`);
                         }}>Meals</button>
                         <button className ="SchoolSearch-SchoolList-Item-ButtonZone-Schedule" onClick ={() => {
                             ls.set('schoolInfo', data);
-                            history.push("/schedule");
+                            history.push(`/schedule?school_id=${school_id}&office_code=${office_code}`);
                         }}>Schedules</button>
                     </div>
                 </div>
@@ -63,6 +61,12 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
 
     return (
         <div className ="SchoolSearch">
+            {
+                isLoading && 
+                <div className ="SchoolSearch-LoadingWrapper">
+                    <Spinner size={100} backgroundColor="skyblue" />
+                </div>
+            }
             <h2 className ="SchoolSearch-Title">급식 정보 도우미</h2>
             <form onSubmit ={requestSchoolSearch} style ={{ display: 'inline-block' }}>
                 <input type ="text" value ={searchValue} onChange ={onChangeValue} 

@@ -1,11 +1,10 @@
 import React from 'react';
-import { Switch, Redirect, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import SchoolSearchPage from './pages/SchoolSearchPage';
 import SchoolPage from './pages/SchoolPage';
 import SchoolSchedulePage from './pages/SchoolSchedulePage';
 
 const App = () => {
-  const isSearched: string | null = localStorage.getItem('schoolInfo');
   return (
     <Switch>
       <Route exact
