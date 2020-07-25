@@ -1,21 +1,22 @@
 import React, { FormEvent, ChangeEvent } from 'react';
 import './SchoolSearch.scss';
+import SecureLs from 'secure-ls';
 import { GoSearch } from 'react-icons/go';
+import { History, LocationState } from "history";
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import cafeteria from '../../assets/images/cafeteria.png';
 import error from '../../assets/images/error.png';
 import schoolImage from '../../assets/images/school.png';
-import SecureLs from 'secure-ls';
 import Loading from '../Common/Loading';
 
-interface SchoolSearchProps extends RouteComponentProps<any> {
+interface SchoolSearchProps extends RouteComponentProps {
     searchValue: string;
     onChangeValue: (event: ChangeEvent<HTMLInputElement>) => void;
     requestSchoolSearch: (event: FormEvent<HTMLFormElement>) => void;
     isSearch: boolean;
     schoolList: string[];
     isLoading: boolean;
-    history: any;
+    history: History<LocationState>;
 }
 
 const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearch, schoolList, history, isLoading } : SchoolSearchProps) => {
