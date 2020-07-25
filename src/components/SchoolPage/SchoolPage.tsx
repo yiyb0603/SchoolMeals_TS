@@ -6,19 +6,18 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import SecureLs from 'secure-ls';
 import moment from 'moment';
 import { History, LocationState } from 'history';
-import { Spinner } from '@class101/ui';
+import Loading from '../Common/Loading';
 
 interface SchoolPageProps extends RouteComponentProps<any> {
     history: History<LocationState>;
     dailyMeals: string[];
     date: string;
-    requstDailyMeals: () => void;
     handlePlusDay: () => void;
     handleMinusDay: () => void;
     isLoading: boolean;
 }
 
-const SchoolPage = ({ history, dailyMeals, date, requstDailyMeals, handlePlusDay, handleMinusDay, isLoading } : SchoolPageProps) => {
+const SchoolPage = ({ history, dailyMeals, date, handlePlusDay, handleMinusDay, isLoading } : SchoolPageProps) => {
     type schoolInfoType = {
         school_name: string;
         school_locate: string;
@@ -34,10 +33,7 @@ const SchoolPage = ({ history, dailyMeals, date, requstDailyMeals, handlePlusDay
     return (
         <div className ="SchoolPage">
             {
-                isLoading && 
-                <div className ="SchoolPage-LoadingWrapper">
-                    <Spinner size={100} backgroundColor="skyblue" />
-                </div>
+                isLoading && <Loading />
             }
             <div className ="SchoolPage-Top">
                 <div className ="SchoolPage-Top-Another">

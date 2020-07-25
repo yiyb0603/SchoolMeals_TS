@@ -1,13 +1,13 @@
 import React, { MutableRefObject } from 'react';
 import Calendar from '@toast-ui/react-calendar';
 import SecureLs from 'secure-ls';
-import { FaSchool, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import moment from 'moment';
+import { FaSchool, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import Loading from '../Common/Loading';
 import 'tui-calendar/dist/tui-calendar.css';
 import 'tui-date-picker/dist/tui-date-picker.css';
 import 'tui-time-picker/dist/tui-time-picker.css';
 import './SchoolSchedule.scss';
-import { Spinner } from '@class101/ui';
 
 interface SchoolScheduleProps {
   calendarRef: MutableRefObject<Calendar>;
@@ -32,10 +32,7 @@ const SchoolSchedule = ({ calendarRef, handlePrevMonth, handleNextMonth, month, 
   return (
     <div className ="SchoolSchedule">
       {
-        isLoading &&
-        <div className ="SchoolSchedule-LoadingWrapper">
-          <Spinner size={100} backgroundColor="skyblue" />
-        </div>
+        isLoading && <Loading />
       }
       <div className ="SchoolSchedule-SchoolName">
         <FaSchool /> <span>{school_name}의 일정</span>

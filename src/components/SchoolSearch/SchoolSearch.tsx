@@ -1,12 +1,12 @@
 import React, { FormEvent, ChangeEvent } from 'react';
 import './SchoolSearch.scss';
-import schoolImage from '../../assets/images/school.png';
 import { GoSearch } from 'react-icons/go';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import cafeteria from '../../assets/images/cafeteria.png';
 import error from '../../assets/images/error.png';
+import schoolImage from '../../assets/images/school.png';
 import SecureLs from 'secure-ls';
-import { Spinner } from '@class101/ui';
+import Loading from '../Common/Loading';
 
 interface SchoolSearchProps extends RouteComponentProps<any> {
     searchValue: string;
@@ -62,10 +62,7 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
     return (
         <div className ="SchoolSearch">
             {
-                isLoading && 
-                <div className ="SchoolSearch-LoadingWrapper">
-                    <Spinner size={100} backgroundColor="skyblue" />
-                </div>
+                isLoading && <Loading />
             }
             <h2 className ="SchoolSearch-Title">급식 정보 도우미</h2>
             <form onSubmit ={requestSchoolSearch} style ={{ display: 'inline-block' }}>

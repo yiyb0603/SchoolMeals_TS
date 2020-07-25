@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
-import SchoolPage from '../../components/SchoolPage';
-import moment from 'moment';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
+import moment from 'moment';
+import SchoolPage from '../../components/SchoolPage';
 
 interface SchoolPageContainerProps {
     store?: {
@@ -53,8 +53,7 @@ const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
     }, [date, setDate]);
 
     return (
-        <SchoolPage dailyMeals ={dailyMeals} date ={date} requstDailyMeals ={requstDailyMeals} 
-            handlePlusDay ={handlePlusDay} handleMinusDay ={handleMinusDay} isLoading ={isLoading} />
+        <SchoolPage dailyMeals ={dailyMeals} date ={date} handlePlusDay ={handlePlusDay} handleMinusDay ={handleMinusDay} isLoading ={isLoading} />
     );
 }
 
