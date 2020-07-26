@@ -1,3 +1,14 @@
+@mixin buttonStyle($color) {
+    all: unset;
+    color: $color;
+    margin-right: 1rem;
+
+    &:hover {
+        cursor: pointer;
+        font-weight: bold;
+    }
+}
+
 .SchoolSearch {
     display: flex;
     display: -webkit-flex;
@@ -46,6 +57,8 @@
     }
 
     &-SchoolList {
+        height: 80vh;
+        overflow-y: auto;
         display: grid;
         grid-template-columns: auto auto auto auto;
 
@@ -58,13 +71,14 @@
             display: -webkit-flex;
             justify-content: center;
             flex-direction: column;
+            max-height: 300px;
             align-items: center;
-            min-height: 50%;
-            max-height: 130%;
             background-color: #dfe4ea;
-            border: 1.5px solid #0067bc;
             padding: 1rem 0;
-            transition: all 0.2s ease-out;
+
+            & > * {
+                margin-bottom: 5px;
+            }
         }
 
         &-Item {
@@ -78,25 +92,11 @@
                 margin-bottom: 5px;
     
                 &-Meals {
-                    all: unset;
-                    color: purple;
-                    margin-right: 1rem;
-
-                    &:hover {
-                        cursor: pointer;
-                        font-weight: bold;
-                    }
+                    @include buttonStyle(purple);
                 }
     
                 &-Schedule {
-                    cursor: pointer;
-                    all: unset;
-                    color: teal;
-
-                    &:hover {
-                        cursor: pointer;
-                        font-weight: bold;
-                    }
+                    @include buttonStyle(teal);
                 }
             }
         }

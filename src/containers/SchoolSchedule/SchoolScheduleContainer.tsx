@@ -2,24 +2,21 @@ import React, { useRef, useCallback, MutableRefObject, useState, useEffect } fro
 import SchoolSchedule from '../../components/SchoolSchedule';
 import { inject, observer } from 'mobx-react';
 import moment from 'moment';
-import queryString from 'query-string';
+import queryString, { ParsedQuery } from 'query-string';
 import { useLocation } from 'react-router-dom';
 import { Error } from 'type/ErrorType';
+import { scheduleStoreType } from 'type/StoreType';
 
 interface SchoolScheduleContainerProps {
     store?: {
-        ScheduleStore: {
-            handleGetSchedules: (school_id: string, office_code: string, month: string) => void | Promise<Error>,
-            scheduleList: object[];
-            isLoading: boolean;
-        };
+        ScheduleStore: scheduleStoreType
     } | any;
 }
 
 const SchoolScheduleContainer = ({ store } : SchoolScheduleContainerProps) => {
     const [month, setMonth] = useState<string>(moment().format("yyyyMM"));
     const { search } = useLocation();
-    const { school_id, office_code } = queryString.parse(search);
+    const { school_id, office_code }: ParsedQuery<string> = queryString.parse(search);
     const calendarRef: MutableRefObject<any> = useRef();
 
     const { handleGetSchedules, scheduleList, isLoading } = store.ScheduleStore;

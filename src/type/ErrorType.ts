@@ -1,4 +1,4 @@
-export type Error = {
+export interface Error {
   response: {
     data: {
       status: number;

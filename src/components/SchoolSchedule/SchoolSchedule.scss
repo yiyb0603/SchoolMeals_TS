@@ -1,5 +1,4 @@
 .SchoolSchedule {
-    overflow: hidden;
     &-SchoolName {
         padding-top: 1rem;
         font-size: 1.3rem;
@@ -12,30 +11,34 @@
         }
     }
 
-    &-Calendar {
-        width: 90%;
-        margin: auto;
-        & > * {
-            margin-top: 1rem;
-        }
-    }
-
     &-Date {
         display: flex;
         display: -webkit-flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-end;
+        margin-bottom: 1rem;
 
         & > * {
             border: none;
             outline: none;
             border-radius: 50%;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-right: 1rem;
             margin-top: 5px;
+            cursor: pointer;
             & > * {
                 vertical-align: middle;
             }
+        }
+    }
+
+    &-Calendar {
+        width: 80%;
+        background-color: white;
+        overflow-y: auto;
+        margin: auto;
+        & > * {
+            margin-top: 1rem;
         }
     }
 }

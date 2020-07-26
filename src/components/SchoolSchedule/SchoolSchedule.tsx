@@ -8,6 +8,8 @@ import 'tui-calendar/dist/tui-calendar.css';
 import 'tui-date-picker/dist/tui-date-picker.css';
 import 'tui-time-picker/dist/tui-time-picker.css';
 import './SchoolSchedule.scss';
+import { scheduleCalendarType } from 'type/ScheduleType';
+import { secureLsType, getSchoolInfoFrom_LS } from 'type/SecureLsType';
 
 interface SchoolScheduleProps {
   calendarRef: MutableRefObject<Calendar>;
@@ -15,19 +17,12 @@ interface SchoolScheduleProps {
   handleNextMonth: () => void;
   month: string;
   isLoading: boolean;
-  scheduleList: object[];
+  scheduleList: scheduleCalendarType[];
 };
 
 const SchoolSchedule = ({ calendarRef, handlePrevMonth, handleNextMonth, month, scheduleList, isLoading } : SchoolScheduleProps) => {
-  type schoolNameType = {
-    school_name: string;
-  };
-
-  const ls: {
-    get: (arg1: string) => schoolNameType;
-  } = new SecureLs({ encodingType: 'aes' });
-
-  const { school_name }: schoolNameType = ls.get("schoolInfo");
+  const ls: secureLsType = new SecureLs({ encodingType: 'aes' });
+  const { school_name }: getSchoolInfoFrom_LS = ls.get("schoolInfo");
 
   return (
     <div className ="SchoolSchedule">
@@ -45,11 +40,11 @@ const SchoolSchedule = ({ calendarRef, handlePrevMonth, handleNextMonth, month, 
 
       <div className ="SchoolSchedule-Calendar">
         <Calendar
-          height ="100vh"
+          height ="80vh"
           ref={calendarRef}
-          taskView
+          taskView ={true}
           schedules ={scheduleList}
-          useDetailPopup
+          useDetailPopup ={true}
           view="month"
           isReadOnly ={true}
           month={{

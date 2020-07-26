@@ -1,7 +1,12 @@
 .PageTemplate {
   width: 100%;
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: linear-gradient(to right, #4776E6, rgb(105, 47, 197)) fixed;
   background: -moz-linear-gradient(to right, #4776E6, rgb(105, 47, 197)) fixed;
   background: -webkit-linear-gradient(to right, #4776E6, rgb(105, 47, 197)) fixed;

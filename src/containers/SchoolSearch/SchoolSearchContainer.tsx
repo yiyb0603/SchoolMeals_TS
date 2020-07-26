@@ -2,19 +2,18 @@ import React, { useState, useCallback, ChangeEvent, FormEvent } from 'react';
 import { inject, observer } from 'mobx-react';
 import SchoolSearch from '../../components/SchoolSearch';
 import { Error } from 'type/ErrorType';
+import { schoolType, searchResponseType } from 'type/SchoolType';
+import { searchStoreType } from 'type/StoreType';
 
 interface SchoolSearchContainerProps {
     store?: {
-        SearchStore: {
-            handleSchoolSearch: (school_name: string, page: number) => Promise<Response | Error>,
-            isLoading: boolean
-        };
+        SearchStore: searchStoreType
     } | any;
 }
 
 const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
     const [searchValue, setSearchValue] = useState<string>('');
-    const [schoolList, setSchoolList] = useState<string[]>([]);
+    const [schoolList, setSchoolList] = useState<schoolType[]>([]);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [isSearch, setIsSearch] = useState<boolean>(false);
     const { handleSchoolSearch, isLoading } = store.SearchStore;
@@ -25,13 +24,6 @@ const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
 
     const requestSchoolSearch = useCallback((event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        type searchResponseType = {
-            status: number;
-            data: {
-                schools: never[];
-            };
-        };
         
         handleSchoolSearch(searchValue, 1)
             .then((response: searchResponseType) => {
@@ -39,7 +31,6 @@ const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
             })
 
             .catch ((error: Error) => {
-                console.log(error.response.data);
                 const { status, message } = error.response.data;
                 if (status === 404) {
                     setSchoolList([]);
@@ -52,15 +43,15 @@ const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
 
             .finally(() => {
                 setIsSearch(true);
-            })
+            });
     }, [handleSchoolSearch, searchValue]);
 
     return (
         <>
         {
             <SchoolSearch searchValue ={searchValue} onChangeValue ={onChangeValue} errorMessage ={errorMessage}
-            requestSchoolSearch ={requestSchoolSearch} isSearch ={isSearch} schoolList ={schoolList} isLoading ={isLoading}
-        />
+                requestSchoolSearch ={requestSchoolSearch} isSearch ={isSearch} schoolList ={schoolList} isLoading ={isLoading}
+            />
         }
         </>
     );

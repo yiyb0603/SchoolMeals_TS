@@ -1,4 +1,4 @@
-import React, { FormEvent, ChangeEvent } from 'react';
+import React, { useCallback, FormEvent, ChangeEvent } from 'react';
 import './SchoolSearch.scss';
 import SecureLs from 'secure-ls';
 import { GoSearch } from 'react-icons/go';
@@ -8,13 +8,14 @@ import cafeteria from '../../assets/images/cafeteria.png';
 import error from '../../assets/images/error.png';
 import schoolImage from '../../assets/images/school.png';
 import Loading from '../Common/Loading';
+import { schoolType } from 'type/SchoolType';
 
 interface SchoolSearchProps extends RouteComponentProps {
     searchValue: string;
     onChangeValue: (event: ChangeEvent<HTMLInputElement>) => void;
     requestSchoolSearch: (event: FormEvent<HTMLFormElement>) => void;
     isSearch: boolean;
-    schoolList: string[];
+    schoolList: schoolType[];
     isLoading: boolean;
     errorMessage: string;
     history: History<LocationState>;
@@ -25,16 +26,14 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
         set: (arg1: string, arg2: any) => void;
     } = new SecureLs({ encodingType: 'aes' });
 
-    type schoolInfo = {
-        school_name: string;
-        office_code: string;
-        school_id: string;
-        school_locate: string;
-    }
+    const onClickButton = useCallback((data: object, school_id: string, office_code: string) => {
+        ls.set('schoolInfo', data);
+        history.push(`/schedule?school_id=${school_id}&office_code=${office_code}`);
+    }, [history, ls]);
 
-    const schoolLists = (params : string[]) => {
-        return params.map((school: any, index: number) => {
-            const { office_code, school_id, school_locate, school_name }: schoolInfo  = school;
+    const schoolLists = (params : schoolType[]) => {
+        return params.map((school: schoolType, index: number) => {
+            const { office_code, school_id, school_locate, school_name }: schoolType = school;
 
             const data: object = {
                 school_name,
@@ -44,17 +43,16 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
             return (
                 <div className ="SchoolSearch-SchoolList-Wrapper" key ={index}>
                     <img src ={schoolImage} className ="SchoolSearch-SchoolImage" alt ="school" />
-                    <div className ="SchoolSearch-SchoolList-Item">{school_name}</div>
-                    <div className ="SchoolSearch-SchoolList-Item">주소: {school_locate}</div>
+                    <div className ="SchoolSearch-SchoolList-Item">
+                    {
+                        school_name.length < 17 ? school_name : school_name.substring(0, 17).concat("....")
+                    }</div>
+                    <div className ="SchoolSearch-SchoolList-Item">{school_locate}</div>
                     <div className ="SchoolSearch-SchoolList-Item-ButtonZone">
-                        <button className ="SchoolSearch-SchoolList-Item-ButtonZone-Meals" onClick ={() => {
-                            ls.set('schoolInfo', data);
-                            history.push(`/page?school_id=${school_id}&office_code=${office_code}`);
-                        }}>Meals</button>
-                        <button className ="SchoolSearch-SchoolList-Item-ButtonZone-Schedule" onClick ={() => {
-                            ls.set('schoolInfo', data);
-                            history.push(`/schedule?school_id=${school_id}&office_code=${office_code}`);
-                        }}>Schedules</button>
+                        <button className ="SchoolSearch-SchoolList-Item-ButtonZone-Meals"
+                            onClick ={() => onClickButton(data, school_id, office_code)}>Meals</button>
+                        <button className ="SchoolSearch-SchoolList-Item-ButtonZone-Schedule"
+                            onClick ={() => onClickButton(data, school_id, office_code)}>Schedules</button>
                     </div>
                 </div>
             );

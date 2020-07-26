@@ -1,6 +1,8 @@
 import MealsRepository from './MealsRepository';
 import { observable, action } from 'mobx';
 import { autobind } from 'core-decorators';
+import { mealsResponseType } from 'type/MealsType';
+import { Error } from 'type/ErrorType';
 
 @autobind
 class MealsStore {
@@ -11,8 +13,8 @@ class MealsStore {
         // 학교 급식 받아오기
         try {
             this.isLoading = true;
-            const response: Response = await MealsRepository.handleGetMeals(school_id, office_code, date);
-            return new Promise((resolve: (response: Response) => void, reject: () => void) => {
+            const response: mealsResponseType = await MealsRepository.handleGetMeals(school_id, office_code, date);
+            return new Promise((resolve: (response: mealsResponseType) => void, reject: () => void) => {
                 resolve(response);
             });
         } catch (error) {

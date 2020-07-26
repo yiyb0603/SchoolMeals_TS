@@ -7,6 +7,7 @@ import SecureLs from 'secure-ls';
 import moment from 'moment';
 import { History, LocationState } from 'history';
 import Loading from '../Common/Loading';
+import { secureLsType, getSchoolInfoFrom_LS } from 'type/SecureLsType';
 
 interface SchoolPageProps extends RouteComponentProps<any> {
     history: History<LocationState>;
@@ -18,17 +19,8 @@ interface SchoolPageProps extends RouteComponentProps<any> {
 }
 
 const SchoolPage = ({ history, dailyMeals, date, handlePlusDay, handleMinusDay, isLoading } : SchoolPageProps) => {
-    type schoolInfoType = {
-        school_name: string;
-        school_locate: string;
-    }
-
-    const ls: {
-        get: (arg1: string) => schoolInfoType;
-        remove: (arg1: string) => void;
-    } = new SecureLs({ encodingType: 'aes' });
-    
-    const { school_name, school_locate }: schoolInfoType = ls.get('schoolInfo');
+    const ls: secureLsType = new SecureLs({ encodingType: 'aes' });
+    const { school_name, school_locate }: getSchoolInfoFrom_LS = ls.get('schoolInfo');
 
     return (
         <div className ="SchoolPage">
@@ -44,6 +36,7 @@ const SchoolPage = ({ history, dailyMeals, date, handlePlusDay, handleMinusDay, 
                     <span className ="SchoolPage-Top-Another-Content">다른 학교 찾아보기</span>
                 </div>
                 <br />
+                
                 <div className ="SchoolPage-Top-NameZone">
                     <FaSchool className ="SchoolPage-Top-NameZone-Icon" />
                     <span className ="SchoolPage-Top-NameZone-Name">{school_name}</span>

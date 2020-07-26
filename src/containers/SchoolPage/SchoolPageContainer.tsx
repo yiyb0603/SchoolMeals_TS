@@ -5,26 +5,18 @@ import queryString, { ParsedQuery } from 'query-string';
 import moment from 'moment';
 import SchoolPage from '../../components/SchoolPage';
 import { Error } from 'type/ErrorType';
+import { mealsResponseType } from 'type/MealsType';
+import { mealsStoreType } from 'type/StoreType';
 
 interface SchoolPageContainerProps {
     store?: {
-        MealsStore: {
-            handleGetMeals: (school_id: string, office_code: string, date: string) => Promise<Response | Error>,
-            isLoading : boolean,
-        };
+        MealsStore: mealsStoreType
     } | any;
 };
 
 const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
     const { search } = useLocation();
     const { school_id, office_code }: ParsedQuery<string> = queryString.parse(search);
-
-    type mealsResponseType = {
-        status: number;
-        data: {
-            meals: never[];
-        };
-    };
 
     const [date, setDate] = useState<string>(moment().format("yyyyMMDD"));
     const [dailyMeals, setDailyMeals] = useState<string[]>([]);
@@ -55,7 +47,7 @@ const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
 
     useEffect(() => {
         requstDailyMeals();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [date, setDate]);
 
     return (
