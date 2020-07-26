@@ -7,7 +7,7 @@ import { Error } from 'type/ErrorType';
 
 @autobind
 class ScheduleStore {
-    @observable scheduleList: object[] = [];
+    @observable scheduleList: scheduleCalendarType[] = [];
     @observable isLoading = false;
 
     @action

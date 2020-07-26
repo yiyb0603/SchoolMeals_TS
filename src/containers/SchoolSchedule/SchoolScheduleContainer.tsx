@@ -6,6 +6,7 @@ import queryString, { ParsedQuery } from 'query-string';
 import { useLocation } from 'react-router-dom';
 import { Error } from 'type/ErrorType';
 import { scheduleStoreType } from 'type/StoreType';
+import Calendar from '@toast-ui/react-calendar';
 
 interface SchoolScheduleContainerProps {
     store?: {
@@ -15,7 +16,7 @@ interface SchoolScheduleContainerProps {
 
 const SchoolScheduleContainer = ({ store } : SchoolScheduleContainerProps) => {
     const [month, setMonth] = useState<string>(moment().format("yyyyMM"));
-    const { search } = useLocation();
+    const { search } = useLocation<History>();
     const { school_id, office_code }: ParsedQuery<string> = queryString.parse(search);
     const calendarRef: MutableRefObject<any> = useRef();
 

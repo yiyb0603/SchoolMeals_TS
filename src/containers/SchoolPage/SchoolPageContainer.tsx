@@ -15,7 +15,7 @@ interface SchoolPageContainerProps {
 };
 
 const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
-    const { search } = useLocation();
+    const { search } = useLocation<History>();
     const { school_id, office_code }: ParsedQuery<string> = queryString.parse(search);
 
     const [date, setDate] = useState<string>(moment().format("yyyyMMDD"));
@@ -27,6 +27,7 @@ const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
             .then((response: mealsResponseType) => {
                 setDailyMeals(response.data.meals);
             })
+
             .catch ((error: Error) => {
                 const { status } = error.response.data;
 
@@ -34,7 +35,7 @@ const SchoolPageContainer = ({ store } : SchoolPageContainerProps) => {
                     setDailyMeals([]);
                 }
                 return error;
-            })
+            });
     }, [date, handleGetMeals, office_code, school_id]);
 
     const handlePlusDay = useCallback(() => {

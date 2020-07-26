@@ -26,9 +26,9 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
         set: (arg1: string, arg2: any) => void;
     } = new SecureLs({ encodingType: 'aes' });
 
-    const onClickButton = useCallback((data: object, school_id: string, office_code: string) => {
+    const onClickButton = useCallback((data: object, address: string, school_id: string, office_code: string) => {
         ls.set('schoolInfo', data);
-        history.push(`/schedule?school_id=${school_id}&office_code=${office_code}`);
+        history.push(`/${address}?school_id=${school_id}&office_code=${office_code}`);
     }, [history, ls]);
 
     const schoolLists = (params : schoolType[]) => {
@@ -50,9 +50,9 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
                     <div className ="SchoolSearch-SchoolList-Item">{school_locate}</div>
                     <div className ="SchoolSearch-SchoolList-Item-ButtonZone">
                         <button className ="SchoolSearch-SchoolList-Item-ButtonZone-Meals"
-                            onClick ={() => onClickButton(data, school_id, office_code)}>Meals</button>
+                            onClick ={() => onClickButton(data, "page",  school_id, office_code)}>Meals</button>
                         <button className ="SchoolSearch-SchoolList-Item-ButtonZone-Schedule"
-                            onClick ={() => onClickButton(data, school_id, office_code)}>Schedules</button>
+                            onClick ={() => onClickButton(data, "schedule", school_id, office_code)}>Schedules</button>
                     </div>
                 </div>
             );
@@ -88,7 +88,8 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
             }
 
             {
-                isSearch && schoolList.length !== 0 ? <h1 className ="SchoolSearch-Result">{schoolList.length}개의 검색결과</h1> : <></>
+                isSearch && schoolList.length !== 0 ? 
+                <h1 className ="SchoolSearch-Result">{schoolList.length}개의 검색결과</h1> : <></>
             }
             
             <div className ="SchoolSearch-SchoolList">
