@@ -1,7 +1,8 @@
 import SearchRepository from './SearchRepository';
 import { observable, action } from 'mobx';
 import { autobind } from 'core-decorators';
-import { searchResponseType } from 'type/SchoolType';
+import { ISearchResponseType } from 'types/SchoolType';
+import { IError } from 'types/ErrorType';
 
 @autobind
 class SearchStore {
@@ -12,13 +13,13 @@ class SearchStore {
       // 학교 검색
     try {
       this.isLoading = true;
-      const response: searchResponseType = await SearchRepository.handleSchoolSearch(school_name, page);
+      const response: ISearchResponseType = await SearchRepository.handleSchoolSearch(school_name, page);
 
-      return new Promise((resolve: (response: searchResponseType) => void, reject: () => void) => {
+      return new Promise((resolve: (response: ISearchResponseType) => void, reject: () => void) => {
         resolve(response);
       });
     } catch (error) {
-      return new Promise((resolve: () => void, reject: (error: Error) => void) => {
+      return new Promise((resolve: () => void, reject: (error: IError) => void) => {
         reject(error);
       });
     } finally {

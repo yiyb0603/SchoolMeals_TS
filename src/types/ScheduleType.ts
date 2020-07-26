@@ -1,4 +1,4 @@
-export interface scheduleResponseType {
+export interface IScheduleResponseType {
   status: number;
   message: string;
   data: {
@@ -9,7 +9,7 @@ export interface scheduleResponseType {
   };
 }
 
-export interface scheduleCalendarType {
+export interface IScheduleCalendarType {
   title: string;
   start: string;
   category: string;

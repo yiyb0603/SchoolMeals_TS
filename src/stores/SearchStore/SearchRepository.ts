@@ -1,14 +1,16 @@
 import axios from 'axios';
 import { SERVER } from 'config/config.json';
+import { ISearchResponseType } from 'types/SchoolType';
 
 class SearchRepository {
   handleSchoolSearch = async (school_name: string, page: number) => {
     // 학교 검색
     try {
-      const { data } = await axios.get(`${SERVER}/search?school_name=${school_name}&page=${page}`);
+      const URL: string = `${SERVER}/search?school_name=${school_name}&page=${page}`;
+      const { data }: { data: ISearchResponseType } = await axios.get(URL);
       return data;
-    } catch (e) {
-      throw e;
+    } catch (error) {
+      throw error;
     }
   }
 }

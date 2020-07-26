@@ -7,20 +7,21 @@ import SecureLs from 'secure-ls';
 import moment from 'moment';
 import { History, LocationState } from 'history';
 import Loading from '../Common/Loading';
-import { secureLsType, getSchoolInfoFrom_LS } from 'type/SecureLsType';
+import { ISecureLsType, IGetSchoolInfoFrom_LS } from 'types/SecureLsType';
 
 interface SchoolPageProps extends RouteComponentProps<any> {
     history: History<LocationState>;
     dailyMeals: string[];
     date: string;
+    dayName: string;
     handlePlusDay: () => void;
     handleMinusDay: () => void;
     isLoading: boolean;
 }
 
-const SchoolPage = ({ history, dailyMeals, date, handlePlusDay, handleMinusDay, isLoading } : SchoolPageProps) => {
-    const ls: secureLsType = new SecureLs({ encodingType: 'aes' });
-    const { school_name, school_locate }: getSchoolInfoFrom_LS = ls.get('schoolInfo');
+const SchoolPage = ({ history, dailyMeals, date, handlePlusDay, handleMinusDay, dayName, isLoading } : SchoolPageProps) => {
+    const ls: ISecureLsType = new SecureLs({ encodingType: 'aes' });
+    const { school_name, school_locate }: IGetSchoolInfoFrom_LS = ls.get('schoolInfo');
 
     return (
         <div className ="SchoolPage">
@@ -36,7 +37,7 @@ const SchoolPage = ({ history, dailyMeals, date, handlePlusDay, handleMinusDay, 
                     <span className ="SchoolPage-Top-Another-Content">다른 학교 찾아보기</span>
                 </div>
                 <br />
-                
+
                 <div className ="SchoolPage-Top-NameZone">
                     <FaSchool className ="SchoolPage-Top-NameZone-Icon" />
                     <span className ="SchoolPage-Top-NameZone-Name">{school_name}</span>
@@ -49,7 +50,7 @@ const SchoolPage = ({ history, dailyMeals, date, handlePlusDay, handleMinusDay, 
 
             <div className ="SchoolPage-DateZone">
                 <FaArrowLeft className ="SchoolPage-DateZone-Arrow" onClick ={handleMinusDay}/>
-                <span>{moment(date).format("yyyy년 MM월 DD일")}</span>
+                <span>{moment(date).format("yyyy년 MM월 DD일")} {dayName}요일</span>
                 {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <DatePicker
                         disableToolbar

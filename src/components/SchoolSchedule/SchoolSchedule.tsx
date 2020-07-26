@@ -8,8 +8,8 @@ import 'tui-calendar/dist/tui-calendar.css';
 import 'tui-date-picker/dist/tui-date-picker.css';
 import 'tui-time-picker/dist/tui-time-picker.css';
 import './SchoolSchedule.scss';
-import { scheduleCalendarType } from 'type/ScheduleType';
-import { secureLsType, getSchoolInfoFrom_LS } from 'type/SecureLsType';
+import { IScheduleCalendarType } from 'types/ScheduleType';
+import { ISecureLsType, IGetSchoolInfoFrom_LS } from 'types/SecureLsType';
 
 interface SchoolScheduleProps {
   calendarRef: MutableRefObject<Calendar>;
@@ -17,12 +17,12 @@ interface SchoolScheduleProps {
   handleNextMonth: () => void;
   month: string;
   isLoading: boolean;
-  scheduleList: scheduleCalendarType[];
+  scheduleList: IScheduleCalendarType[];
 };
 
 const SchoolSchedule = ({ calendarRef, handlePrevMonth, handleNextMonth, month, scheduleList, isLoading } : SchoolScheduleProps) => {
-  const ls: secureLsType = new SecureLs({ encodingType: 'aes' });
-  const { school_name }: getSchoolInfoFrom_LS = ls.get("schoolInfo");
+  const ls: ISecureLsType = new SecureLs({ encodingType: 'aes' });
+  const { school_name }: IGetSchoolInfoFrom_LS = ls.get("schoolInfo");
 
   return (
     <div className ="SchoolSchedule">

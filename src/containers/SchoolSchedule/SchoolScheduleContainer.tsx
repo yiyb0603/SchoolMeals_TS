@@ -4,13 +4,12 @@ import { inject, observer } from 'mobx-react';
 import moment from 'moment';
 import queryString, { ParsedQuery } from 'query-string';
 import { useLocation } from 'react-router-dom';
-import { Error } from 'type/ErrorType';
-import { scheduleStoreType } from 'type/StoreType';
-import Calendar from '@toast-ui/react-calendar';
+import { IError } from 'types/ErrorType';
+import { IScheduleStoreType } from 'types/StoreType';
 
 interface SchoolScheduleContainerProps {
     store?: {
-        ScheduleStore: scheduleStoreType
+        ScheduleStore: IScheduleStoreType
     } | any;
 }
 
@@ -23,7 +22,7 @@ const SchoolScheduleContainer = ({ store } : SchoolScheduleContainerProps) => {
     const { handleGetSchedules, scheduleList, isLoading } = store.ScheduleStore;
     const requestSchedules = useCallback(async () => {
         await handleGetSchedules(school_id, office_code, month)
-            .catch ((error: Error) => {
+            .catch ((error: IError) => {
                 return error;
             });
     }, [handleGetSchedules, month, office_code, school_id]);
@@ -48,7 +47,8 @@ const SchoolScheduleContainer = ({ store } : SchoolScheduleContainerProps) => {
 
     return (
         <SchoolSchedule calendarRef ={calendarRef} handlePrevMonth ={handlePrevMonth} 
-            handleNextMonth ={handleNextMonth} month ={month} scheduleList ={scheduleList} isLoading ={isLoading} />
+            handleNextMonth ={handleNextMonth} month ={month} scheduleList ={scheduleList} isLoading ={isLoading}
+        />
     );
 }
 

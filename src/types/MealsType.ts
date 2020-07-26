@@ -1,4 +1,4 @@
-export interface mealsResponseType {
+export interface IMealsResponseType {
   status: number;
   message: string;
   data: {

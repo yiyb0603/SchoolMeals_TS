@@ -8,14 +8,14 @@ import cafeteria from '../../assets/images/cafeteria.png';
 import error from '../../assets/images/error.png';
 import schoolImage from '../../assets/images/school.png';
 import Loading from '../Common/Loading';
-import { schoolType } from 'type/SchoolType';
+import { ISchoolType } from 'types/SchoolType';
 
 interface SchoolSearchProps extends RouteComponentProps {
     searchValue: string;
     onChangeValue: (event: ChangeEvent<HTMLInputElement>) => void;
     requestSchoolSearch: (event: FormEvent<HTMLFormElement>) => void;
     isSearch: boolean;
-    schoolList: schoolType[];
+    schoolList: ISchoolType[];
     isLoading: boolean;
     errorMessage: string;
     history: History<LocationState>;
@@ -31,9 +31,9 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
         history.push(`/${address}?school_id=${school_id}&office_code=${office_code}`);
     }, [history, ls]);
 
-    const schoolLists = (params : schoolType[]) => {
-        return params.map((school: schoolType, index: number) => {
-            const { office_code, school_id, school_locate, school_name }: schoolType = school;
+    const schoolLists = (params : ISchoolType[]) => {
+        return params.map((school: ISchoolType, index: number) => {
+            const { office_code, school_id, school_locate, school_name }: ISchoolType = school;
 
             const data: object = {
                 school_name,

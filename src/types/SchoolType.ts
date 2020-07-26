@@ -1,5 +1,5 @@
 // 학교 정보
-export interface schoolType {
+export interface ISchoolType {
   school_name: string;
   office_code: string;
   school_id: string;
@@ -7,10 +7,10 @@ export interface schoolType {
 }
 
 // 학교 검색
-export interface searchResponseType {
+export interface ISearchResponseType {
   status: number;
   message: string;
   data: {
-    schools: schoolType[];
+    schools: ISchoolType[];
   };
 }
