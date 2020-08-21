@@ -12,7 +12,7 @@ import { IScheduleCalendarType } from 'types/ScheduleType';
 import { ISecureLsType, IGetSchoolInfoFrom_LS } from 'types/SecureLsType';
 
 interface SchoolScheduleProps {
-  calendarRef: MutableRefObject<Calendar>;
+  calendarRef: MutableRefObject<Calendar | null>;
   handlePrevMonth: () => void;
   handleNextMonth: () => void;
   month: string;

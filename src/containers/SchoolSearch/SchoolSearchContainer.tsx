@@ -1,22 +1,19 @@
 import React, { useState, useCallback, ChangeEvent, FormEvent } from 'react';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import SchoolSearch from '../../components/SchoolSearch';
 import { IError } from 'types/ErrorType';
 import { ISchoolType, ISearchResponseType } from 'types/SchoolType';
 import { ISearchStoreType } from 'types/StoreType';
+import useStores from 'lib/useStores';
 
-interface SchoolSearchContainerProps {
-    store?: {
-        SearchStore: ISearchStoreType
-    } | any;
-}
+const SchoolSearchContainer = observer(() => {
+    const { store } = useStores();
 
-const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
     const [searchValue, setSearchValue] = useState<string>('');
     const [schoolList, setSchoolList] = useState<ISchoolType[]>([]);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [isSearch, setIsSearch] = useState<boolean>(false);
-    const { handleSchoolSearch, isLoading } = store.SearchStore;
+    const { handleSchoolSearch, isLoading }: ISearchStoreType = store.SearchStore;
 
     const onChangeValue = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
@@ -55,6 +52,6 @@ const SchoolSearchContainer = ({ store } : SchoolSearchContainerProps) => {
         }
         </>
     );
-}
+});
 
-export default inject('store')(observer(SchoolSearchContainer));
+export default SchoolSearchContainer;

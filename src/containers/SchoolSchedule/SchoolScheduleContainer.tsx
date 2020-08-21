@@ -1,25 +1,23 @@
-import React, { useRef, useCallback, MutableRefObject, useState, useEffect } from 'react';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
 import SchoolSchedule from '../../components/SchoolSchedule';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import moment from 'moment';
 import queryString, { ParsedQuery } from 'query-string';
 import { useLocation } from 'react-router-dom';
 import { IError } from 'types/ErrorType';
 import { IScheduleStoreType } from 'types/StoreType';
+import useStores from 'lib/useStores';
+import Calendar from '@toast-ui/react-calendar';
 
-interface SchoolScheduleContainerProps {
-    store?: {
-        ScheduleStore: IScheduleStoreType
-    } | any;
-}
+const SchoolScheduleContainer = observer(() => {
+    const { store } = useStores();
 
-const SchoolScheduleContainer = ({ store } : SchoolScheduleContainerProps) => {
     const [month, setMonth] = useState<string>(moment().format("yyyyMM"));
     const { search } = useLocation<History>();
     const { school_id, office_code }: ParsedQuery<string> = queryString.parse(search);
-    const calendarRef: MutableRefObject<any> = useRef();
+    const calendarRef = useRef<Calendar | null>(null);
 
-    const { handleGetSchedules, scheduleList, isLoading } = store.ScheduleStore;
+    const { handleGetSchedules, scheduleList, isLoading }: IScheduleStoreType = store.ScheduleStore;
     const requestSchedules = useCallback(async () => {
         await handleGetSchedules(school_id, office_code, month)
             .catch ((error: IError) => {
@@ -28,17 +26,21 @@ const SchoolScheduleContainer = ({ store } : SchoolScheduleContainerProps) => {
     }, [handleGetSchedules, month, office_code, school_id]);
 
     const handlePrevMonth = useCallback(() => {
-        const calendarInstance = calendarRef.current.getInstance();
-        calendarInstance.prev();
+        if (calendarRef.current !== null) {
+            const calendarInstance = calendarRef.current.getInstance();
+            calendarInstance.prev();
 
-        setMonth(moment(month).add('-1', 'month').format('yyyyMM'));
+            setMonth(moment(month).add('-1', 'month').format('yyyyMM'));
+        }
     }, [month]);
 
     const handleNextMonth = useCallback(() => {
-        const calendarInstance = calendarRef.current.getInstance();
-        calendarInstance.next();
+        if (calendarRef.current !== null) {
+            const calendarInstance = calendarRef.current.getInstance();
+            calendarInstance.next();
 
-        setMonth(moment(month).add('+1', 'month').format('yyyyMM'));
+            setMonth(moment(month).add('+1', 'month').format('yyyyMM'));
+        }
     }, [month]);
 
     useEffect(() => {
@@ -50,6 +52,6 @@ const SchoolScheduleContainer = ({ store } : SchoolScheduleContainerProps) => {
             handleNextMonth ={handleNextMonth} month ={month} scheduleList ={scheduleList} isLoading ={isLoading}
         />
     );
-}
+});
 
-export default inject('store')(observer(SchoolScheduleContainer));
+export default SchoolScheduleContainer;
