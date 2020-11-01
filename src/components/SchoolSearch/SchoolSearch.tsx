@@ -64,7 +64,7 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
             {
                 isLoading && <Loading />
             }
-            <h2 className ="SchoolSearch-Title">급식 정보 도우미</h2>
+            <h2 className ="SchoolSearch-Title">급식 / 일정 도우미</h2>
             <form onSubmit ={requestSchoolSearch} style ={{ display: 'inline-block' }}>
                 <input type ="text" value ={searchValue} onChange ={onChangeValue} 
                     className ="SchoolSearch-SearchZone" placeholder ="학교를 검색해보세요" />
@@ -76,12 +76,13 @@ const SchoolSearch = ({ searchValue, onChangeValue, requestSchoolSearch, isSearc
             {
                 !isSearch && <div className ="SchoolSearch-CheckZone">
                     <img src ={cafeteria} alt ="cafeteria" className ="SchoolSearch-CheckZone-Image" />
-                    <div className ="SchoolSearch-CheckZone-Contents">학교 급식 정보를 빠르게 확인할 수 있습니다.</div>
+                    <div className ="SchoolSearch-CheckZone-Contents">학교 급식 / 일정 정보를 빠르게 확인할 수 있습니다.</div>
                 </div>
             }
 
             {
-                isSearch && schoolList.length === 0 ? <div className ="SchoolSearch-CheckZone">
+                isSearch && schoolList.length === 0 ?
+                <div className ="SchoolSearch-CheckZone">
                     <img src ={error} alt ="cafeteria" className ="SchoolSearch-CheckZone-Image" />
                     <div className ="SchoolSearch-CheckZone-Contents">{errorMessage}</div>
                 </div> : <></>
